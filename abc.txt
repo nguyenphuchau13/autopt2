@@ -1,0 +1,128 @@
+import pywinauto
+from pywinauto import mouse
+from pywinauto.application import Application
+import time
+from pywinauto.keyboard import send_keys
+from pywinauto import  keyboard as ks
+import cv2
+
+# app = Application().start(cmd_line=r'C:\PhongThan2\game.exe')
+# app = Application().connect(title='PhongThan2.Com - Version 3.32')
+# app2 = app.window(best_match='PhongThan2.Com - Version 3.32FSOnline Class')
+# app2.print_control_identifiers()
+# app2.child_window(title="PhongThan2.Com - Version 3.32", class_name="FSOnline Class")
+
+# app2.type_keys('{F2}')
+# app2 = app.window(best_match='FSOnline Class')
+# app2.print_control_identifiers()
+# time.sleep(10)
+# app2.type_keys('0964892408a')
+# app2.type_keys('{ENTER}')
+# time.sleep(10)
+# app2.type_keys('{ENTER}')
+# app2.type_keys('{ENTER}')
+# app = Application().connect(title='PhongThan2.Com - Version 3.32')
+# app2 = app.window(best_match='PhongThan2.Com - Version 3.32')
+# app2.type_keys('{ENTER}')
+# app2 = app.window(best_match='PhongThan2.Com - Version 3.32')
+# app2.type_keys('{RIGHT}{ENTER}')
+# print(app.PhongThan.print_control_identifiers())
+# print(app.PhongThan2ComVersion332.child_window(title="PhongThan2.Com - Version 3.32", class_name="FSOnline Class").wrapper_object())
+# mywindows = pywinauto.findwindows.find_windows(title_re="PhongThan2.Com - Version 3.32")
+# mywindows.set_focus()
+# if mywindows.exists(timeout=10, retry_interval=1):
+#     mywindows.set_focus()
+#     yesBtn = mywindows[u'&Yes']
+#     # Check the object name of the Yes button. You can use Swapy tool(It is deprecated but it works, else you can use inspect.exe)
+#     yesBtn.click()
+# else:
+#     print('Confirmation pop up did not appear')
+# popup = app.window(found_index=0, title_re='PhongThan2.Com - Version 3.32')
+# popup.type_keys('{RIGHT}{ENTER}')
+# popup = app.window(found_index=0, title_re='PhongThan2.Com - Version 3.32')
+# popup.type_keys('{RIGHT}{ENTER}')
+# print(app.PhongThan2ComVersion332.print_control_identifiers())
+
+import pyautogui
+#
+def take_screen_shot():
+    time.sleep(5)
+    screen_shot = pyautogui.screenshot()
+    screen_shot.save('image/data2.png')
+
+
+
+
+def find_post_image():
+    method = cv2.TM_SQDIFF_NORMED
+
+    # Read the images from the file
+    small_image = cv2.imread('image/truyen.png')
+    large_image = cv2.imread('image/data2.png')
+
+    result = cv2.matchTemplate(small_image, large_image, method)
+
+    # We want the minimum squared difference
+    mn,_,mnLoc,_ = cv2.minMaxLoc(result)
+
+    # Draw the rectangle:
+    # Extract the coordinates of our best match
+    MPx, MPy = mnLoc
+
+    return MPx + 24, MPy + 15
+
+# pyautogui.moveTo(MPx,MPy)
+# pyautogui.typewrite("hello Geeks !")
+# pyautogui.moveTo(100, 100,duration = 1)
+# pyautogui.click(100, 100)
+
+# import pyautoguihello Geeks !
+# pyautogui.click(100, 100)
+# pyautogui.typewrite("hello Geeks !")
+# # Step 3: Draw the rectangle on large_image
+# cv2.rectangle(large_image, (MPx,MPy),(MPx+tcols,MPy+trows),(0,0,255),2)
+#
+# # Display the original image with the rectangle around the match.
+# cv2.imshow('output',large_image)
+#
+# # The image is only displayed if we call this
+# cv2.waitKey(0)
+
+def spam_ordinates():
+    ''' function to determin the mouse coordinates'''
+
+    print('press "x" key to lock position...')
+    pre_x = 0
+    pre_y = 0
+    while True:
+        # Check if x key is pressed
+        time.sleep(0.1)
+
+        x, y = pyautogui.position()
+
+        if x != pre_x or y != pre_y:
+            print(f'spam at position: {x}, {y}')
+        pre_x = x
+        pre_y = y
+    # # Get the current mouse positionaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    # x, y = pyautogui.position()aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    # print(f'spam at position: {x}, {y}')
+
+    # return x, y
+# time.sleep(2)
+# # pyautogui.moveTo(500, 500, duration=1)
+# # pyautogui.dragRel(100, 0, duration=1)
+# # pyautogui.dragRel(0, 100, duration=1)
+# # pyautogui.dragRel(-100, 0, duration=1)
+# # pyautogui.dragRel(0, -100, duration=1)
+# pyautogui.dragRel(757, 297, duration=1)
+# print(pyautogui.position())
+# pyautogui.click()
+# import win32api, win32con
+# def click(x,y):
+#     win32api.SetCursorPos((x,y))
+#     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,x,y,0,0)
+#     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,x,y,0,0)
+# click(757,297)
+# spam_ordinates()
+# take_screen_shot()
