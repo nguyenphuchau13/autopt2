@@ -96,7 +96,7 @@ def adjust_pos(x_pos, y_pos, x_adjust, y_adjust):
     return x_pos, y_pos
 
 
-class MasterPT:
+class SlavePT:
     TK_POS_X = '179'
     TK_POS_Y = '188'
     NUM_COIN = '1'
@@ -149,7 +149,7 @@ class MasterPT:
         if not is_success:
             return False
         time.sleep(0.5)
-        self.app.FSOnlineClass.type_keys(MasterPT.NUM_COIN)
+        self.app.FSOnlineClass.type_keys(SlavePT.NUM_COIN)
         time.sleep(0.2)
         path_image_live = 'image/live_image/do_cam_do_page_confirm.png'
         is_success = self.action(
@@ -192,14 +192,14 @@ class MasterPT:
             path_image_live, 'image/child_x_pos.png', 18, 7, log_error=' Not found x_post')
         if not is_success:
             return False
-        self.app.FSOnlineClass.type_keys(MasterPT.TK_POS_X)
+        self.app.FSOnlineClass.type_keys(SlavePT.TK_POS_X)
 
         path_image_live = 'image/live_image/tk.png'
         is_success = self.action(
             path_image_live, 'image/child_y_pos.png', 16, 4, log_error=' Not found x_post')
         if not is_success:
             return False
-        self.app.FSOnlineClass.type_keys(MasterPT.TK_POS_Y)
+        self.app.FSOnlineClass.type_keys(SlavePT.TK_POS_Y)
 
         path_image_live = 'image/live_image/tk.png'
         is_success = self.action(
@@ -476,61 +476,30 @@ class MasterPT:
                 break
         print('Chua vao game')
 
-    def bill_gates_gd(self):
-        path_image_live = 'image/live_image/bill_gates_tim_nv.png'
-        for idx in range(0,10):
-            is_success = self.action(path_image_live, 'image/child_tim_nv_page.png', 20, 15,
-                                     log_error='child_tim_nv not found', no_click=True)
-
-            if is_success:
-                self.app_bill_gates.FSOnlineClass.type_keys('{ESC}')
-            else:
-                break
-        time.sleep(0.2)
-        self.app_bill_gates.FSOnlineClass.set_focus()
-        time.sleep(0.2)
-        self.app_bill_gates.FSOnlineClass.type_keys('{F6}')
-        time.sleep(0.2)
-        path_image_live = 'image/live_image/bill_gates_tim_nv.png'
-        is_success = self.action(path_image_live, 'image/child_tim_nv.png', 20, 15,
-                                 log_error='child_tim_nv not found')
-
-        if not is_success:
-            return False
-        path_image_live = 'image/live_image/bill_gates_tim_nv.png'
-        is_success = self.action(path_image_live, 'image/child_chuc_name.png', -90, 10,
-                                 log_error='child_tim_nv not found', debug=True)
-        if not is_success:
-            return False
-        time.sleep(0.5)
-        for idx in range(0, 50):
-            self.app_bill_gates.FSOnlineClass.type_keys('{BACKSPACE}')
-        time.sleep(0.1)
-        self.app_bill_gates.FSOnlineClass.type_keys(self.NAME_NV)
 
 if __name__ == "__main__":
-    master_hanld = 1640344
+    slave_handle = 1640344
     bill_gates_handle = 3015796
     mywindows = pywinauto.findwindows.find_windows(title_re="PhongThan2.Com -")
     print(mywindows)
     [1640344, 3015796]
-    app = pywinauto.application.Application().connect(handle=master_hanld)
+    app = pywinauto.application.Application().connect(handle=slave_handle)
     # app.FSOnlineClass.set_focus()
-    master_pt = MasterPT(master_hanld, bill_gates_handle)
-    master_pt.bill_gates_gd()
-    # for elem in range(0, 10):
-    #     master_pt.check_login_success()
-    #     if not master_pt.ktc_open():
-    #         exit(0)
-    #     master_pt.use_dnp()
-    #     master_pt.go_pawn()
-    #     master_pt.pawn_coin()
-    #     master_pt.exit_game()
-    #     if not master_pt.loggin_tk():
-    #         if master_pt.delete_nv():
-    #             master_pt.create_nv()
-    #             master_pt.check_tao_nv_failed()
-    #     master_pt.loggin_tk()
-    #     os.system('cls')
-    # master_pt.loggin_tk()
-    # master_pt.delete_nv()
+    slave_pt = SlavePT(slave_handle, bill_gates_handle)
+
+# for elem in range(0, 10):
+#     slave_pt.check_login_success()
+#     if not slave_pt.ktc_open():
+#         exit(0)
+#     slave_pt.use_dnp()
+#     slave_pt.go_pawn()
+#     slave_pt.pawn_coin()
+#     slave_pt.exit_game()
+#     if not slave_pt.loggin_tk():
+#         if slave_pt.delete_nv():
+#             slave_pt.create_nv()
+#             slave_pt.check_tao_nv_failed()
+#     slave_pt.loggin_tk()
+#     os.system('cls')
+# slave_pt.loggin_tk()
+# slave_pt.delete_nv()

@@ -1,27 +1,26 @@
 import socket
 import json
 import threading
-HOST = "127.0.0.1"  # The server's hostname or IP address
-PORT = 65432  # The port used by the server
 
-ADDR = (HOST, PORT)
-IP = socket.gethostbyname(socket.gethostname())
-SIZE = 1024
-FORMAT = "utf-8"
-DISCONNECT_MSG = "!DISCONNECT"
 
-def main():
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(ADDR)
-    print(f"[CONNECTED] Client connected to server at {IP}:{PORT}")
+class SocketClient:
+    HOST = "127.0.0.1"  # The server's hostname or IP address
+    PORT = 65432  # The port used by the server
 
-    connected = True
-    client_name = 'bill gates'
+    ADDR = (HOST, PORT)
+    IP = socket.gethostbyname(socket.gethostname())
+    SIZE = 1024
+    FORMAT = "utf-8"
+    DISCONNECT_MSG = "!DISCONNECT"
 
-    while connected:
-        msg = input(">input: ")
+    def __init__(self, client_name):
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client.connect(self.ADDR)
+        self.client_name = client_name
+
+    def send_message(self, msg):
         msg_meta_data = {
-            'bill gates': {
+            self.client_name: {
                 "msg_send": [
                     {
                         "send_to": "slave",
@@ -31,16 +30,9 @@ def main():
             }
         }
         msg_data = json.dumps(msg_meta_data)
-        client.send(msg_data.encode(FORMAT))
+        self.client.send(msg_data.encode(self.FORMAT))
 
-        if msg == DISCONNECT_MSG:
-            connected = False
-        else:
-            thread = threading.Thread(target=recv_msg, args=(client,))
-            thread.start()
-def recv_msg(client_socket):
-    msg = client_socket.recv(SIZE).decode(FORMAT)
-    print(f"[SERVER] {msg}")
-
-if __name__ == "__main__":
-    main()
+    def recv_msg(self, client_socket):
+        msg = client_socket.recv(self.SIZE).decode(self.FORMAT)
+        print(f"[SERVER] {msg}")
+        return msg
