@@ -1,11 +1,6 @@
 import pywinauto
-from pywinauto import mouse
-from pywinauto.application import Application
 import time
 import ctypes
-from pywinauto.keyboard import send_keys
-from pywinauto import keyboard as ks
-import cv2
 import cv2
 import numpy as np
 import pyautogui
