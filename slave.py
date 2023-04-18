@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 import pyautogui
 import os
+from socket_msg import client
 
 """It simulates the mouse"""
 MOUSEEVENTF_MOVE = 0x0001  # mouse move
@@ -16,6 +17,7 @@ MOUSEEVENTF_MIDDLEDOWN = 0x0020  # middle button down
 MOUSEEVENTF_MIDDLEUP = 0x0040  # middle button up
 MOUSEEVENTF_WHEEL = 0x0800  # wheel button rolled
 MOUSEEVENTF_ABSOLUTE = 0x8000  # absolute move
+DISCONNECT_MSG = "!DISCONNECT"
 
 
 def take_screen_shot(path_image_live):
@@ -94,19 +96,27 @@ def adjust_pos(x_pos, y_pos, x_adjust, y_adjust):
 class SlavePT:
     TK_POS_X = '179'
     TK_POS_Y = '188'
-    NUM_COIN = '1'
+    NUM_COIN = '10'
     PASS = '0964892408a'
     NUMBER_NV = 101
     NAME_NV = 'mrslave102'
-    PT_LOGO = 'image/child_chon_nv_page_pt_viet.png'
+    # PT_LOGO = 'image/child_chon_nv_page_pt_viet.png'
+    # CLIENT_NAME = 'BillGatePT'
+    CLIENT_NAME = 'SlavePT'
 
+    # BILL_GATES_NAME = 'image/child_bill_gate_name.png'
     # PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
 
-    def __init__(self, master_handle, bill_gates_handle=None):
+    def __init__(self, master_handle, name_pt='PTV'):
         self.name_nv = ''
         self.app = pywinauto.application.Application().connect(handle=master_handle)
-        if bill_gates_handle:
-            self.app_bill_gates = pywinauto.application.Application().connect(handle=bill_gates_handle)
+        self.socket_client = client.SocketClient(self.CLIENT_NAME)
+        if name_pt == 'PTV':
+            self.BILL_GATES_NAME = 'image/child_bill_gate_name_pt_viet.png'
+            self.PT_LOGO = 'image/child_chon_nv_page_pt_viet.png'
+        else:
+            self.BILL_GATES_NAME = 'image/child_bill_gate_name.png'
+            self.PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
 
     def ktc_open(self):
         self.app.FSOnlineClass.set_focus()
@@ -144,6 +154,7 @@ class SlavePT:
         if not is_success:
             return False
         time.sleep(0.5)
+        print('Nhap so xu cam')
         self.app.FSOnlineClass.type_keys(SlavePT.NUM_COIN)
         time.sleep(0.2)
         path_image_live = 'image/live_image/do_cam_do_page_confirm.png'
@@ -152,6 +163,7 @@ class SlavePT:
         if not is_success:
             return False
         time.sleep(0.5)
+        print('Xac nhan cam do')
         path_image_live = 'image/live_image/do_cam_do_page_confirm_again.png'
         is_success = self.action(
             path_image_live, 'image/child_cam_do_confirm.png', 20, 15, log_error=' Cam do page not found 2')
@@ -159,6 +171,8 @@ class SlavePT:
             return False
         time.sleep(0.5)
         self.app.FSOnlineClass.type_keys('{ESC}')
+        print('Cam xu Thanh COng')
+        return True
 
     def use_dnp(self):
         print('Open hanh trang')
@@ -306,14 +320,15 @@ class SlavePT:
             self.app.FSOnlineClass.type_keys('{ENTER}')
             self.loggin_tk()
             time.sleep(0.3)
+            return False
         time.sleep(2)
         print(' Thoat Game thanh cong')
-
+        return True
     def delete_nv(self):
         time.sleep(2)
         print('Xoa nhan vat ...')
         is_success = False
-        for idx in range(0, 1000):
+        for idx in range(0, 500):
             path_image_live = 'image/live_image/delete_nv_page.png'
             is_success = self.action(path_image_live, self.PT_LOGO, 20, 15,
                                      log_error='child_chon_nv_page not found')
@@ -461,6 +476,7 @@ class SlavePT:
         self.app.FSOnlineClass.type_keys('')
 
     def check_login_success(self, num_loop=1000):
+        self.app.FSOnlineClass.set_focus()
         for idx in range(0, num_loop):
             time.sleep(0.2)
             path_image_live = 'image/live_image/game_windown.png'
@@ -471,30 +487,103 @@ class SlavePT:
                 break
         print('Chua vao game')
 
+    def slave_gd_enter(self):
+        self.app.FSOnlineClass.set_focus()
+        path_image_live = 'image/live_image/game_windown.png'
+        is_success = self.action(path_image_live, 'image/child_gd_slave_button.png', 20, 15,
+                                 log_error='child_gd_slave_button not found')
+        if not is_success:
+            return False
+        time.sleep(0.5)
+        print('Kiem tra ten NV')
+        path_image_live = 'image/live_image/game_windown.png'
+        is_success = self.action(path_image_live, self.BILL_GATES_NAME, 20, 15,
+                                 log_error='{} not found'.format(self.BILL_GATES_NAME), no_click=False)
+        if not is_success:
+            return False
+        print('Xac nhan bat dau gd')
+        path_image_live = 'image/live_image/game_windown.png'
+        is_success = self.action(path_image_live, 'image/child_slave_gd_button.png', 20, 10,
+                                 log_error='child_slave_gd_button not found')
+        if not is_success:
+            return False
+
+        print('Kiem tra gd page')
+        time.sleep(0.5)
+        path_image_live = 'image/live_image/game_windown.png'
+        is_success = self.action(path_image_live, 'image/child_gd_page.png', 20, 10,
+                                 log_error='child_gd_page not found', no_click=True)
+        if not is_success:
+            return False
+        return True
+    def slave_gd(self):
+        self.app.FSOnlineClass.set_focus()
+        path_image_live = 'image/live_image/game_windown.png'
+        is_success = self.action(path_image_live, 'image/child_input_money.png', 30, 10,
+                                 log_error='child_input_money not found')
+        if not is_success:
+            self.app.FSOnlineClass.type_keys('{ESC}')
+            return False
+        self.app.FSOnlineClass.type_keys('9999999999')
+        print('Khoa GD')
+        path_image_live = 'image/live_image/game_windown.png'
+        is_success = self.action(path_image_live, 'image/child_gd_khoa_buton.png', 20, 10,
+                                 log_error='child_gd_khoa_buton not found')
+        if not is_success:
+            self.app.FSOnlineClass.type_keys('{ESC}')
+            return False
+        self.socket_client.send_message('KHOA', 'BillGatePT')
+
+        msg = self.socket_client.recv_msg()
+        self.app.FSOnlineClass.set_focus()
+        if msg == 'CONFIRM':
+            path_image_live = 'image/live_image/game_windown.png'
+            is_success = self.action(path_image_live, 'image/child_gd_xac_dinh.png', 20, 10,
+                                     log_error='child_gd_xac_dinh not found')
+            if not is_success:
+                self.app.FSOnlineClass.type_keys('{ESC}')
+                return False
+
+        return True
+
 
 if __name__ == "__main__":
-    slave_handle = 1640344
-    bill_gates_handle = 3015796
-    mywindows = pywinauto.findwindows.find_windows(title_re="PhongThan2.Com -")
+    slave_handle = 1443988
+    mywindows = pywinauto.findwindows.find_windows(title_re="PhongThanViet.Com -")
     print(mywindows)
     [1640344, 3015796]
     app = pywinauto.application.Application().connect(handle=slave_handle)
     # app.FSOnlineClass.set_focus()
-    slave_pt = SlavePT(slave_handle, bill_gates_handle)
+    slave_pt = SlavePT(slave_handle)
 
-# for elem in range(0, 10):
-#     slave_pt.check_login_success()
-#     if not slave_pt.ktc_open():
-#         exit(0)
-#     slave_pt.use_dnp()
-#     slave_pt.go_pawn()
-#     slave_pt.pawn_coin()
-#     slave_pt.exit_game()
-#     if not slave_pt.loggin_tk():
-#         if slave_pt.delete_nv():
-#             slave_pt.create_nv()
-#             slave_pt.check_tao_nv_failed()
-#     slave_pt.loggin_tk()
-#     os.system('cls')
-# slave_pt.loggin_tk()
-# slave_pt.delete_nv()
+    for elem in range(0, 10):
+        slave_pt.check_login_success()
+        if not slave_pt.ktc_open():
+            exit(0)
+        slave_pt.use_dnp()
+        slave_pt.go_pawn()
+        if slave_pt.pawn_coin():
+            slave_pt.socket_client.send_message('GD', 'BillGatePT')
+            print('Cho Bill Gate phan hoi')
+            msg = slave_pt.socket_client.recv_msg()
+            if msg == 'THGD':
+                for idx in range(0, 500):
+                    is_success = slave_pt.slave_gd_enter()
+                    if is_success:
+                        print('Goi message san sang gd')
+                        slave_pt.socket_client.send_message('GD_OK', 'BillGatePT')
+                        break
+                    else:
+                        slave_pt.socket_client.send_message('GD_FAILED', 'BillGatePT')
+                time.sleep(1)
+                is_success = slave_pt.slave_gd()
+        if slave_pt.exit_game():
+            if not slave_pt.loggin_tk():
+                if slave_pt.delete_nv():
+                    slave_pt.create_nv()
+                    slave_pt.check_tao_nv_failed()
+        slave_pt.loggin_tk()
+        os.system('cls')
+    # slave_pt.loggin_tk()
+    # slave_pt.delete_nv()
+    slave_pt.socket_client.send_message(DISCONNECT_MSG, 'init')
