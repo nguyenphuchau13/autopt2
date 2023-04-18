@@ -1,15 +1,10 @@
 import pywinauto
-from pywinauto import mouse
-from pywinauto.application import Application
 import time
 import ctypes
-from pywinauto.keyboard import send_keys
-from pywinauto import keyboard as ks
-import cv2
 import cv2
 import numpy as np
 import pyautogui
-import os
+from socket_msg import client
 
 """It simulates the mouse"""
 MOUSEEVENTF_MOVE = 0x0001  # mouse move
@@ -21,6 +16,7 @@ MOUSEEVENTF_MIDDLEDOWN = 0x0020  # middle button down
 MOUSEEVENTF_MIDDLEUP = 0x0040  # middle button up
 MOUSEEVENTF_WHEEL = 0x0800  # wheel button rolled
 MOUSEEVENTF_ABSOLUTE = 0x8000  # absolute move
+DISCONNECT_MSG = "!DISCONNECT"
 
 
 def take_screen_shot(path_image_live):
@@ -104,8 +100,14 @@ class BillGatePT:
     NUMBER_NV = 101
     NAME_NV = 'mrslave102'
     # PT_LOGO = 'image/child_chon_nv_page_pt_viet.png'
-
+    CLIENT_NAME = 'BillGatePT'
     PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
+
+    def __init__(self, bill_gates_handle):
+        self.name_nv = ''
+        self.app_bill_gates = pywinauto.application.Application().connect(handle=bill_gates_handle)
+        self.socket_client = client.SocketClient(self.CLIENT_NAME)
+
     def action(self,
                path_image_live,
                path_child_image,
@@ -134,9 +136,6 @@ class BillGatePT:
             move_and_click_right(x_pos, y_pos)
         time.sleep(0.1)
         return True
-    def __init__(self, bill_gates_handle):
-        self.name_nv = ''
-        self.app_bill_gates = pywinauto.application.Application().connect(handle=bill_gates_handle)
 
     def bill_gates_gd(self):
         self.app_bill_gates.FSOnlineClass.set_focus()
@@ -170,9 +169,8 @@ class BillGatePT:
         if not is_success:
             return False
         time.sleep(0.5)
-        for idx in range(0, 50):
+        for idx in range(0, 30):
             self.app_bill_gates.FSOnlineClass.type_keys('{BACKSPACE}')
-        time.sleep(0.1)
         self.app_bill_gates.FSOnlineClass.type_keys(self.NAME_NV)
 
         path_image_live = 'image/live_image/bill_gates_tim_nv.png'
@@ -180,32 +178,59 @@ class BillGatePT:
                                  log_error='child_tim_nv not found')
         if not is_success:
             return False
+
         return True
+
+    def confirm_gd(self):
+        print('confirm_gd ......')
+        msg = master_pt.socket_client.recv_msg()
+        self.app_bill_gates.FSOnlineClass.set_focus()
+        path_image_live = 'image/live_image/game_windown.png'
+        is_success = self.action(path_image_live, 'image/child_gd_page.png', 20, 10,
+                                 log_error='child_gd_page not found', no_click=True)
+        if not is_success:
+            return False
+        if msg == 'KHOA':
+            path_image_live = 'image/live_image/game_windown.png'
+            is_success = self.action(path_image_live, 'image/child_gd_khoa_buton.png', 20, 10,
+                                     log_error='child_gd_khoa_buton not found')
+            if not is_success:
+                self.app_bill_gates.FSOnlineClass.type_keys('{ESC}')
+                return False
+
+            path_image_live = 'image/live_image/game_windown.png'
+            is_success = self.action(path_image_live, 'image/child_gd_xac_dinh.png', 20, 10,
+                                     log_error='child_gd_xac_dinh not found')
+            if not is_success:
+                self.app_bill_gates.FSOnlineClass.type_keys('{ESC}')
+                return False
+
+            master_pt.socket_client.send_message('CONFIRM', 'SlavePT')
+
+
 if __name__ == "__main__":
-    master_hanld = 1640344
-    bill_gates_handle = 3015796
-    mywindows = pywinauto.findwindows.find_windows(title_re="PhongThan2.Com -")
+    bill_gates_handle = 1116164
+    mywindows = pywinauto.findwindows.find_windows(title_re="PhongThanViet.Com -")
     print(mywindows)
     [1640344, 3015796]
-    app = pywinauto.application.Application().connect(handle=master_hanld)
+    app = pywinauto.application.Application().connect(handle=bill_gates_handle)
     # app.FSOnlineClass.set_focus()
+
     master_pt = BillGatePT(bill_gates_handle)
+    while True:
+        print('Waiting msg')
+        msg = master_pt.socket_client.recv_msg()
+        if msg == 'GD':
+            for idx in range(0, 100):
+                time.sleep(0.2)
+                is_success = master_pt.bill_gates_gd()
+                if is_success:
+                    master_pt.socket_client.send_message('THGD', 'SlavePT')
+                    print('Dang cho GD ...')
+                    msg = master_pt.socket_client.recv_msg()
+                    if msg == 'GD_OK':
+                        print('Chuan bi gd')
+                        master_pt.confirm_gd()
+                        break
 
-    master_pt.bill_gates_gd()
-
-    # for elem in range(0, 10):
-    #     slave_pt.check_login_success()
-    #     if not slave_pt.ktc_open():
-    #         exit(0)
-    #     slave_pt.use_dnp()
-    #     slave_pt.go_pawn()
-    #     slave_pt.pawn_coin()
-    #     slave_pt.exit_game()
-    #     if not slave_pt.loggin_tk():
-    #         if slave_pt.delete_nv():
-    #             slave_pt.create_nv()
-    #             slave_pt.check_tao_nv_failed()
-    #     slave_pt.loggin_tk()
-    #     os.system('cls')
-    # slave_pt.loggin_tk()
-    # slave_pt.delete_nv()
+    # master_pt.socket_client.send_message(DISCONNECT_MSG, 'init')
