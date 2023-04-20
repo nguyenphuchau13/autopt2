@@ -1,5 +1,7 @@
 import pywinauto
 import time
+from datetime import datetime
+
 import ctypes
 import cv2
 import numpy as np
@@ -118,8 +120,8 @@ class SlavePT:
             self.BILL_GATES_NAME = 'image/child_bill_gate_name.png'
             self.PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
         elif name_pt == 'PTQH':
-            self.BILL_GATES_NAME = 'image/child_bill_gate_name.png'
-            self.PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
+            self.BILL_GATES_NAME = 'image/child_bill_gate_name_pt_viet.png'
+            self.PT_LOGO = 'image/child_chon_nv_page_pt_qh.png'
 
     def ktc_open(self):
         self.app.FSOnlineClass.set_focus()
@@ -295,7 +297,7 @@ class SlavePT:
         print('action_open_out_page .....')
         is_success = False
         for index in range(0, 10):
-            time.sleep(0.5)
+            time.sleep(0.2)
             self.app.FSOnlineClass.type_keys('{ESC}')
             time.sleep(0.2)
             path_image_live = 'image/live_image/delete_page.png'
@@ -310,7 +312,7 @@ class SlavePT:
         self.app.FSOnlineClass.set_focus()
         print('Thoat Game ...')
         is_success = self.action_open_out_page()
-        time.sleep(0.5)
+        # time.sleep(0.5)
         # self.app.FSOnlineClass.type_keys('{ESC}')
         # time.sleep(0.5)
         # path_image_live = 'image/live_image/delete_check_exit.png'
@@ -329,7 +331,7 @@ class SlavePT:
             time.sleep(0.3)
             return -1
         time.sleep(2)
-        for idx in range(0,500):
+        for idx in range(0, 500):
             time.sleep(0.3)
             print('Check thoat game ....')
             path_image_live = 'image/live_image/delete_check_exit.png'
@@ -342,7 +344,6 @@ class SlavePT:
         return True
 
     def delete_nv(self):
-        time.sleep(2)
         print('Xoa nhan vat ...')
         is_success = False
         for idx in range(0, 500):
@@ -354,7 +355,7 @@ class SlavePT:
                 break
         if not is_success:
             return False
-        time.sleep(0.5)
+        time.sleep(0.2)
         self.app.FSOnlineClass.type_keys(self.PASS)
         time.sleep(0.2)
         self.app.FSOnlineClass.type_keys('{ENTER}')
@@ -566,9 +567,14 @@ class SlavePT:
         msg = self.socket_client.recv_msg()
         self.app.FSOnlineClass.set_focus()
         if msg == 'CONFIRM':
-            path_image_live = 'image/live_image/game_windown.png'
-            is_success = self.action(path_image_live, 'image/child_gd_xac_dinh.png', 20, 10,
-                                     log_error='child_gd_xac_dinh not found')
+            print('CONFIRM .....')
+            for idx in range(0, 50):
+                path_image_live = 'image/live_image/game_windown.png'
+                is_success = self.action(path_image_live, 'image/child_gd_xac_dinh.png', 20, 10,
+                                         log_error='child_gd_xac_dinh not found')
+                if is_success:
+                    break
+                time.sleep(0.2)
             if not is_success:
                 self.app.FSOnlineClass.type_keys('{ESC}')
                 return False
@@ -576,17 +582,27 @@ class SlavePT:
         return True
 
 
+PT_INFO = {
+    'PTQH': 'Phong Than 2 Quan Hung Tranh',
+    'PT2': 'PhongThan2',
+    'PTV': 'PhongThanViet.com'
+}
+
 if __name__ == "__main__":
-    slave_handle = 197658
-    mywindows = pywinauto.findwindows.find_windows(title_re="PhongThanViet.Com -")
+    slave_handle = 2884326
+    mywindows = pywinauto.findwindows.find_windows(title_re=PT_INFO['PTQH'])
     print(mywindows)
     [1640344, 3015796]
+    start = datetime.now()
     app = pywinauto.application.Application().connect(handle=slave_handle)
-    # app.FSOnlineClass.set_focus()
-    slave_pt = SlavePT(slave_handle)
+    app.FSOnlineClass.set_focus()
+    slave_pt = SlavePT(slave_handle, name_pt='PTQH')
     slave_pt.NUM_COIN = '20'
-    TOTAL_COIN = 200
-    LOOP_TIME = TOTAL_COIN/int(slave_pt.NUM_COIN)
+    TOTAL_COIN = 375
+    LOOP_TIME = int(TOTAL_COIN / int(slave_pt.NUM_COIN))
+    print('LOOP_TIME : ', LOOP_TIME)
+    print('sO TIEN DU KIEN : ', TOTAL_COIN*50 - (LOOP_TIME*0.2*50))
+    time.sleep(2)
     for elem in range(0, LOOP_TIME):
         slave_pt.check_login_success()
         if not slave_pt.ktc_open():
@@ -609,6 +625,7 @@ if __name__ == "__main__":
                         break
                     else:
                         slave_pt.socket_client.send_message('GD_FAILED', 'BillGatePT')
+                        is_success = False
 
                 time.sleep(1)
                 is_success = slave_pt.slave_gd()
@@ -622,3 +639,4 @@ if __name__ == "__main__":
     # slave_pt.loggin_tk()
     # slave_pt.delete_nv()
     slave_pt.socket_client.send_message(DISCONNECT_MSG, 'init')
+    print('Time running : ',datetime.now()-start)
