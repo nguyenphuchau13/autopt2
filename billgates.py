@@ -197,20 +197,23 @@ class BillGatePT:
             if not is_success:
                 self.app_bill_gates.FSOnlineClass.type_keys('{ESC}')
                 return False
-
-            path_image_live = 'image/live_image/game_windown.png'
-            is_success = self.action(path_image_live, 'image/child_gd_xac_dinh.png', 20, 10,
-                                     log_error='child_gd_xac_dinh not found')
+            for idx in range(0, 50):
+                time.sleep(0.2)
+                path_image_live = 'image/live_image/game_windown.png'
+                is_success = self.action(path_image_live, 'image/child_gd_xac_dinh.png', 20, 10,
+                                         log_error='child_gd_xac_dinh not found')
+                if is_success:
+                    break
             if not is_success:
                 self.app_bill_gates.FSOnlineClass.type_keys('{ESC}')
                 return False
-
+            print(' Goi message CONFIRM')
             master_pt.socket_client.send_message('CONFIRM', 'SlavePT')
-
+            return True
 
 if __name__ == "__main__":
-    bill_gates_handle = 1116164
-    mywindows = pywinauto.findwindows.find_windows(title_re="PhongThanViet.Com -")
+    bill_gates_handle = 2360962
+    mywindows = pywinauto.findwindows.find_windows(title_re="Phong Than 2 Quan Hung Tranh")
     print(mywindows)
     [1640344, 3015796]
     app = pywinauto.application.Application().connect(handle=bill_gates_handle)
@@ -230,7 +233,7 @@ if __name__ == "__main__":
                     msg = master_pt.socket_client.recv_msg()
                     if msg == 'GD_OK':
                         print('Chuan bi gd')
-                        master_pt.confirm_gd()
-                        break
+                        if master_pt.confirm_gd():
+                            break
 
     # master_pt.socket_client.send_message(DISCONNECT_MSG, 'init')
