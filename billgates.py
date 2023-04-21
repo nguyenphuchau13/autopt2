@@ -210,14 +210,20 @@ class BillGatePT:
             print(' Goi message CONFIRM')
             master_pt.socket_client.send_message('CONFIRM', 'SlavePT')
             return True
-
+PT_INFO = {
+    'PTQH': 'Phong Than 2 Quan Hung Tranh',
+    'PT2': 'PhongThan2.Com - ',
+    'PTV': 'PhongThanViet.com'
+}
 if __name__ == "__main__":
-    bill_gates_handle = 2360962
-    mywindows = pywinauto.findwindows.find_windows(title_re="Phong Than 2 Quan Hung Tranh")
+    bill_gates_handle = 460110 # pthb
+    PT_NAME = 'PT2'
+    # bill_gates_handle = 460768 # pt 2
+    mywindows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
     print(mywindows)
     [1640344, 3015796]
     app = pywinauto.application.Application().connect(handle=bill_gates_handle)
-    # app.FSOnlineClass.set_focus()
+    app.FSOnlineClass.set_focus()
 
     master_pt = BillGatePT(bill_gates_handle)
     while True:
