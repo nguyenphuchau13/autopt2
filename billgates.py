@@ -102,11 +102,195 @@ class BillGatePT:
     # PT_LOGO = 'image/child_chon_nv_page_pt_viet.png'
     CLIENT_NAME = 'BillGatePT'
     PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
+    TK = 'acnhansat2'
 
-    def __init__(self, bill_gates_handle):
+    def __init__(self, bill_gates_handle=None):
         self.name_nv = ''
-        self.app_bill_gates = pywinauto.application.Application().connect(handle=bill_gates_handle)
+        try:
+            self.app_bill_gates = pywinauto.application.Application().connect(handle=bill_gates_handle)
+        except:
+            if not self.find_bill_gates_window():
+                self.init_game_windown()
         self.socket_client = client.SocketClient(self.CLIENT_NAME)
+
+    def find_bill_gates_window(self):
+        self.close_all_login_page()
+        path_image_live = 'image/live_image/find_slave_window.png'
+        pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+        is_success = False
+        for pt_window in pt_windows:
+            self.app_bill_gates = pywinauto.application.Application().connect(handle=pt_window)
+            is_success = self.action(path_image_live, 'image/bill_gates_image.png', 20, 10,
+                                     log_error='bill_gates_image not found', no_click=True)
+
+            if is_success:
+                print('Da tim thay bill gates ..')
+                break
+        if not is_success:
+            self.app_bill_gates = None
+        return is_success
+
+    def exit_game_windown(self):
+        self.app_bill_gates.kill()
+
+    def close_all_login_page(self):
+        path_image_live = 'image/live_image/close_all_login_page.png'
+        pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+        for pt_window in pt_windows:
+            self.app_bill_gates = pywinauto.application.Application().connect(handle=pt_window)
+            is_login_page = self.action(
+                path_image_live, 'image/dang_nhap_page.png', 20, 10, log_error='dang_nhap_page not found', no_click=True
+            )
+            if is_login_page:
+                self.exit_game_windown()
+
+    def init_game_windown(self, first_init=False):
+        path_image_live = 'image/live_image/init_game_windown.png'
+
+        self.app_bill_gates = pywinauto.application.Application().start(cmd_line=r'C:\PhongThan2\game.exe')
+        time.sleep(1)
+        is_success = False
+        for idx in range(0, 100):
+            is_success = self.action(path_image_live, 'image/init_game.png', 20, 10,
+                                     log_error='init_game not found', no_click=True)
+            if is_success:
+                break
+        if not is_success:
+            exit(0)
+
+        if first_init:
+            pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+        else:
+            pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+            for pt_window in pt_windows:
+                self.app_bill_gates = pywinauto.application.Application().connect(handle=pt_window)
+                is_success = self.action(path_image_live, 'image/init_game.png', 20, 10,
+                                         log_error='init_game not found', no_click=True)
+                if is_success:
+                    break
+        if not is_success:
+            exit(0)
+        print('Start game ......')
+        self.app_bill_gates.FSOnlineClass.type_keys('{ENTER}')
+        time.sleep(0.2)
+        is_success = self.action(path_image_live, 'image/init_game_btn.png', 20, 10,
+                                 log_error='init_game_btn not found')
+        if not is_success:
+            exit(0)
+        time.sleep(0.2)
+        is_success = self.action(path_image_live, 'image/chon_server.png', 20, 10,
+                                 log_error='chon_server not found')
+        if not is_success:
+            exit(0)
+        self.loggin_tk()
+        return is_success
+
+    def nhap_tk(self):
+        path_image_live = 'image/live_image/nhap_tk.png'
+        print('Nhap TK')
+
+        is_success = self.action(path_image_live, 'image/input_tk.png', 20, 15,
+                                 log_error='input_tk not found')
+        time.sleep(0.1)
+        if not is_success:
+            print('Khong the nhap TK')
+            exit(-1)
+        for idx in range(0, 30):
+            self.app_bill_gates.FSOnlineClass.type_keys('{BACKSPACE}')
+        time.sleep(0.1)
+        self.app_bill_gates.FSOnlineClass.type_keys(self.TK)
+        time.sleep(0.1)
+        self.app_bill_gates.FSOnlineClass.type_keys('{TAB}')
+
+    def loggin_tk(self):
+        print(' loggin_tk ... ')
+        path_image_live = 'image/live_image/login_page.png'
+        skip_enter_server = self.action(path_image_live, 'image/child_vao_game_button.png', 20, 15,
+                                        log_error='child_vao_game_button not found', no_click=True)
+        if not skip_enter_server:
+            if not self.login_button_action():
+                return False
+        else:
+            print('Nhap pass luon')
+            pass
+        for elem in range(0, 1000):
+            path_image_live = 'image/live_image/login_page.png'
+            is_success = self.action(path_image_live, 'image/child_vao_game_button.png', 20, 15,
+                                     log_error='child_vao_game_button 2 not found', no_click=True)
+            if is_success:
+                break
+            time.sleep(0.2)
+            path_image_live = 'image/live_image/login_page.png'
+            is_success = self.action(path_image_live, 'image/child_server_bao_tri.png', 20, 15,
+                                     log_error='child_server_bao_tri not found', no_click=True)
+            if is_success:
+                time.sleep(0.2)
+                self.app_bill_gates.FSOnlineClass.type_keys('{ENTER}')
+                if not self.login_button_action():
+                    return False
+            time.sleep(0.2)
+
+        for idx2 in range(0, 100):
+            self.nhap_tk()
+
+            print('Nhap pass ')
+            # time.sleep(0.2)
+            self.app_bill_gates.FSOnlineClass.type_keys(self.PASS)
+            time.sleep(0.2)
+            print('Nhap ENTER pass ')
+            self.app_bill_gates.FSOnlineClass.type_keys('{ENTER}')
+            is_success = False
+            for idx_3 in range(0, 1000):
+
+                is_success = self.action(path_image_live, 'image/child_xoa_nv_buttom.png', 20, 15,
+                                         log_error='child_chon_nv_page not found', no_click=True)
+                if is_success:
+                    break
+
+                is_tkdsd = self.action(path_image_live, 'image/child_login_tkdsd.png', 20, 15,
+                                       log_error='child_login_tkdsd not found', no_click=True)
+                if is_tkdsd:
+                    time.sleep(0.2)
+                    self.app_bill_gates.FSOnlineClass.type_keys('{ENTER}')
+                    break
+
+                path_image_live = 'image/live_image/login_page.png'
+                is_svbt = self.action(path_image_live, 'image/child_server_bao_tri.png', 20, 15,
+                                      log_error='child_server_bao_tri not found', no_click=True)
+                if is_svbt:
+                    time.sleep(0.2)
+                    self.app_bill_gates.FSOnlineClass.type_keys('{ENTER}')
+                    if self.loggin_tk():
+                        return True
+                    break
+                time.sleep(0.2)
+            if is_success:
+                break
+        for idx in range(0, 500):
+            print('Tim xoa nv buttom ...')
+            path_image_live = 'image/live_image/delete_nv_page.png'
+            is_success = self.action(path_image_live, 'image/child_xoa_nv_buttom.png', 20, 15,
+                                     log_error='child_xoa_nv_buttom not found', no_click=True)
+            if is_success:
+                break
+        if is_success:
+            self.app_bill_gates.FSOnlineClass.type_keys('{ENTER}')
+
+        return True
+
+    def login_button_action(self):
+        time.sleep(0.2)
+        path_image_live = 'image/live_image/login_page.png'
+        is_success = self.action(path_image_live, 'image/child_login_server_page.png', 20, 15,
+                                 log_error='child_login_server_page not found', no_click=True)
+        if not is_success:
+            return False
+        print(' Chuan bi login ')
+        is_success = self.action(path_image_live, 'image/child_login_button.png', 20, 15,
+                                 log_error='child_login_button not found')
+        if not is_success:
+            return False
+        return True
 
     def action(self,
                path_image_live,
@@ -118,6 +302,7 @@ class BillGatePT:
                right_click=False,
                no_click=False
                ):
+        self.app_bill_gates.FSOnlineClass.set_focus()
         time.sleep(0.1)
         take_screen_shot(path_image_live)
         time.sleep(0.1)
@@ -143,7 +328,7 @@ class BillGatePT:
         path_image_live = 'image/live_image/bill_gates_tim_nv.png'
         for idx in range(0, 10):
             is_success = self.action(path_image_live, 'image/child_chuc_name.png', 20, 15,
-                                     log_error='child_tim_nv_page not found', no_click=True)
+                                     log_error='child_chuc_name not found', no_click=True)
 
             if is_success:
                 time.sleep(0.2)
@@ -165,17 +350,17 @@ class BillGatePT:
             return False
         path_image_live = 'image/live_image/bill_gates_tim_nv.png'
         is_success = self.action(path_image_live, 'image/child_chuc_name.png', -90, 10,
-                                 log_error='child_tim_nv not found', debug=True)
+                                 log_error='child_chuc_name not found', debug=True)
         if not is_success:
             return False
-        time.sleep(0.5)
+
         for idx in range(0, 30):
             self.app_bill_gates.FSOnlineClass.type_keys('{BACKSPACE}')
         self.app_bill_gates.FSOnlineClass.type_keys(self.NAME_NV)
 
         path_image_live = 'image/live_image/bill_gates_tim_nv.png'
         is_success = self.action(path_image_live, 'image/child_gd_button.png', 20, 10,
-                                 log_error='child_tim_nv not found')
+                                 log_error='child_gd_button not found')
         if not is_success:
             return False
 
@@ -198,40 +383,52 @@ class BillGatePT:
                 self.app_bill_gates.FSOnlineClass.type_keys('{ESC}')
                 return False
             for idx in range(0, 50):
-                time.sleep(0.2)
+
                 path_image_live = 'image/live_image/game_windown.png'
                 is_success = self.action(path_image_live, 'image/child_gd_xac_dinh.png', 20, 10,
                                          log_error='child_gd_xac_dinh not found')
                 if is_success:
                     break
+                time.sleep(0.2)
             if not is_success:
                 self.app_bill_gates.FSOnlineClass.type_keys('{ESC}')
                 return False
             print(' Goi message CONFIRM')
             master_pt.socket_client.send_message('CONFIRM', 'SlavePT')
             return True
+
+    def exit_gd_page(self):
+        path_image_live = 'image/live_image/game_windown.png'
+        is_success = self.action(path_image_live, 'image/child_gd_page.png', 20, 10,
+                                 log_error='child_gd_xac_dinh not found', no_click=False)
+        if is_success:
+            time.sleep(0.2)
+            self.app_bill_gates.FSOnlineClass.type_keys('{ESC}')
+            print('Da close gd page')
+
+
 PT_INFO = {
     'PTQH': 'Phong Than 2 Quan Hung Tranh',
     'PT2': 'PhongThan2.Com - ',
     'PTV': 'PhongThanViet.com'
 }
 if __name__ == "__main__":
-    bill_gates_handle = 460110 # pthb
+    # bill_gates_handle = 2033310  # pthb
     PT_NAME = 'PT2'
     # bill_gates_handle = 460768 # pt 2
-    mywindows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
-    print(mywindows)
-    [1640344, 3015796]
-    app = pywinauto.application.Application().connect(handle=bill_gates_handle)
-    app.FSOnlineClass.set_focus()
+    # mywindows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+    # print(mywindows)
+    # # [1640344, 3015796]
+    # app = pywinauto.application.Application().connect(handle=bill_gates_handle)
+    # app.FSOnlineClass.set_focus()
 
-    master_pt = BillGatePT(bill_gates_handle)
+    master_pt = BillGatePT()
+    num_gd = 1
     while True:
         print('Waiting msg')
         msg = master_pt.socket_client.recv_msg()
         if msg == 'GD':
             for idx in range(0, 100):
-                time.sleep(0.2)
                 is_success = master_pt.bill_gates_gd()
                 if is_success:
                     master_pt.socket_client.send_message('THGD', 'SlavePT')
@@ -240,6 +437,12 @@ if __name__ == "__main__":
                     if msg == 'GD_OK':
                         print('Chuan bi gd')
                         if master_pt.confirm_gd():
+                            print('Giao Dich Lan thu ', num_gd)
+                            num_gd += 1
                             break
+                    else:
+                        master_pt.exit_gd_page()
+                        print('GD that bai tien hanh gd lai')
+                time.sleep(0.2)
 
     # master_pt.socket_client.send_message(DISCONNECT_MSG, 'init')
