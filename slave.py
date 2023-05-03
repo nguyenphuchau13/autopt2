@@ -1,7 +1,7 @@
 import pywinauto
 import time
 from datetime import datetime
-
+import signal
 import ctypes
 import cv2
 import numpy as np
@@ -20,6 +20,12 @@ MOUSEEVENTF_MIDDLEUP = 0x0040  # middle button up
 MOUSEEVENTF_WHEEL = 0x0800  # wheel button rolled
 MOUSEEVENTF_ABSOLUTE = 0x8000  # absolute move
 DISCONNECT_MSG = "!DISCONNECT"
+
+PT_INFO = {
+    'PTQH': 'Phong Than 2 Quan Hung Tranh',
+    'PT2': 'PhongThan2.Com',
+    'PTV': 'PhongThanViet.com'
+}
 
 
 def take_screen_shot(path_image_live):
@@ -56,6 +62,7 @@ def spam_ordinates():
 
         if x != pre_x or y != pre_y:
             print(f'spam at position: {x}, {y}')
+            pass
         pre_x = x
         pre_y = y
 
@@ -96,8 +103,8 @@ def adjust_pos(x_pos, y_pos, x_adjust, y_adjust):
 
 
 class SlavePT:
-    TK_POS_X = '179'
-    TK_POS_Y = '188'
+    TK_POS_X = '178'
+    TK_POS_Y = '189'
     NUM_COIN = '20'
     PASS = '0964892408a'
     NUMBER_NV = 101
@@ -105,13 +112,19 @@ class SlavePT:
     # PT_LOGO = 'image/child_chon_nv_page_pt_viet.png'
     # CLIENT_NAME = 'BillGatePT'
     CLIENT_NAME = 'SlavePT'
-
+    TK = 'acnhansat1'
     # BILL_GATES_NAME = 'image/child_bill_gate_name.png'
     # PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
 
-    def __init__(self, master_handle, name_pt='PTV'):
+    def __init__(self, master_handle=None, name_pt='PTV'):
         self.name_nv = ''
-        self.app = pywinauto.application.Application().connect(handle=master_handle)
+        self.pip_handle = master_handle
+        try:
+            self.app = pywinauto.application.Application().connect(handle=master_handle)
+        except:
+            if not self.find_slave_window():
+                self.init_game_windown()
+
         self.socket_client = client.SocketClient(self.CLIENT_NAME)
         if name_pt == 'PTV':
             self.BILL_GATES_NAME = 'image/child_bill_gate_name_pt_viet.png'
@@ -119,9 +132,37 @@ class SlavePT:
         elif name_pt == 'PT2':
             self.BILL_GATES_NAME = 'image/child_bill_gate_name.png'
             self.PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
+            self.bill_gates_name = 'image/bill_gates_image.png'
+            self.slave_name = 'image/slave_image.png'
         elif name_pt == 'PTQH':
             self.BILL_GATES_NAME = 'image/child_bill_gate_name_pt_viet.png'
             self.PT_LOGO = 'image/child_chon_nv_page_pt_qh.png'
+
+    def find_slave_window(self):
+        self.close_all_login_page()
+        path_image_live = 'image/live_image/find_slave_window.png'
+        pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+        is_success = False
+        for pt_window in pt_windows:
+            self.app = pywinauto.application.Application().connect(handle=pt_window)
+            is_success = self.action(path_image_live, 'image/slave_image.png', 20, 10,
+                                     log_error='slave_image not found', no_click=True)
+            if is_success:
+                break
+        if not is_success:
+            self.app = None
+        return is_success
+
+    def close_all_login_page(self):
+        path_image_live = 'image/live_image/close_all_login_page.png'
+        pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+        for pt_window in pt_windows:
+            self.app = pywinauto.application.Application().connect(handle=pt_window)
+            is_login_page = self.action(
+                path_image_live, 'image/dang_nhap_page.png', 20, 10, log_error='dang_nhap_page not found', no_click=True
+            )
+            if is_login_page:
+                self.exit_game_windown()
 
     def ktc_open(self):
         self.app.FSOnlineClass.set_focus()
@@ -141,10 +182,10 @@ class SlavePT:
         print('Cam do')
         path_image_live = 'image/live_image/cam_do.png'
         is_success = self.action(
-            path_image_live, 'image/child_cam_do.png', 20, 15, log_error=' Cam do not found')
+            path_image_live, 'image/child_cam_do_new.png', 20, 15, log_error=' Cam do not found')
         if not is_success:
             return False
-        time.sleep(2)
+        time.sleep(0.5)
         print('Go Cam do')
         path_image_live = 'image/live_image/cam_do_page.png'
         is_success = self.action(
@@ -176,13 +217,23 @@ class SlavePT:
             return False
         for idx in range(0, 100):
             is_success = self.action(
-                path_image_live, 'image/child_cam_do_page.png', 20, 15, log_error=' child_cam_do_page not found')
+                path_image_live, 'image/child_cam_do_page.png', 20, 15,
+                log_error=' child_cam_do_page not found', no_click=True)
             if not is_success:
                 break
             self.app.FSOnlineClass.type_keys('{ESC}')
             time.sleep(0.2)
+        self.exit_dang_doi_thoai()
         print('Cam xu Thanh COng')
         return True
+
+    def exit_dang_doi_thoai(self):
+        path_image_live = 'image/live_image/exit_dang_doi_thoai.png'
+        is_success = self.action(path_image_live, 'image/check_ktdt.png', 20, 15,
+                                 log_error=' check_ktdt not found')
+
+        time.sleep(0.2)
+        return is_success
 
     def use_dnp(self):
         print('Open hanh trang')
@@ -234,7 +285,7 @@ class SlavePT:
         if not is_success:
             return False
         print('Dang di chuyen ...')
-        time.sleep(25)
+        time.sleep(22)
         print('Da Den')
 
     def ktc_check(self):
@@ -270,11 +321,12 @@ class SlavePT:
         if x_pos is None:
             print(log_error)
             return False
+        if debug is True:
+            print(x_pos, y_pos)
+            pass
         if no_click:
             return True
         x_pos, y_pos = adjust_pos(x_pos, y_pos, x_adjust, y_adjust)
-        if debug is True:
-            print(x_pos, y_pos)
 
         if not right_click:
             move_and_click_left(x_pos, y_pos)
@@ -294,7 +346,7 @@ class SlavePT:
         is_success = self.action(path_image_live, 'image/child_end.png', 10, 5, log_error=' DNP page not found')
         if not is_success:
             return False
-        time.sleep(1)
+        time.sleep(0.5)
         print('Mua DNP')
         path_image_live = 'image/live_image/ktc_dnp_page.png'
         is_success = self.action(path_image_live, 'image/child_dnp.png', 164, 51, log_error='DNP not found')
@@ -308,11 +360,32 @@ class SlavePT:
             return False
         return True
 
+    def nhap_tk(self):
+        path_image_live = 'image/live_image/nhap_tk.png'
+        print('Nhap TK')
+
+        is_success = self.action(path_image_live, 'image/input_tk.png', 20, 15,
+                                 log_error='input_tk not found')
+        if is_success:
+            time.sleep(0.1)
+            for idx in range(0, 30):
+                self.app.FSOnlineClass.type_keys('{BACKSPACE}')
+            time.sleep(0.1)
+            self.app.FSOnlineClass.type_keys(self.TK)
+            time.sleep(0.1)
+            self.app.FSOnlineClass.type_keys('{TAB}')
+            print('Nhap pass ')
+            time.sleep(0.2)
+            self.app.FSOnlineClass.type_keys(self.PASS)
+            time.sleep(0.1)
+            print('Nhap ENTER pass ')
+            self.app.FSOnlineClass.type_keys('{ENTER}')
+        return is_success
     def action_open_out_page(self):
         print('action_open_out_page .....')
         is_success = False
-        for index in range(0, 10):
-            time.sleep(0.2)
+        for index in range(0, 100):
+            self.exit_dang_doi_thoai()
             self.app.FSOnlineClass.type_keys('{ESC}')
             time.sleep(0.2)
             path_image_live = 'image/live_image/delete_page.png'
@@ -334,11 +407,12 @@ class SlavePT:
         # is_success = self.action(path_image_live, 'image/child_chon_nv.png', 20, 15,
         #                          log_error='child_chon_nv not found')
         if not is_success:
-            return False
-
+            self.exit_game_windown()
+            print('Thoat game action_open_out_page ... ')
+            self.init_game_windown(skip_delete_nv=True)
+            return True
+        num_exit_failed = 0
         for idx in range(0, 500):
-
-            time.sleep(0.2)
             path_image_live = 'image/live_image/delete_check_exit.png'
             is_success = self.action(path_image_live, 'image/child_delete_tk_dsd.png', 20, 15,
                                      log_error='child_delete_tk_dsd not found')
@@ -356,11 +430,26 @@ class SlavePT:
                                      log_error='child_check_exit_game not found', no_click=True)
             if not is_success:
                 break
+            else:
+                num_exit_failed += 1
 
+            if num_exit_failed == 10:
+                self.exit_game_windown()
+                print('Thoat game num_exit_failed ... ')
+                self.init_game_windown(skip_delete_nv=True)
+                break
+            time.sleep(0.2)
         print(' Thoat Game thanh cong')
         return True
 
     def delete_nv(self):
+        time.sleep(0.2)
+        print('check da xoa nv')
+        path_image_live = 'image/live_image/delete_nv_page.png'
+        is_success = self.action(path_image_live, 'image/child_tao_nv_only.png', 20, 15,
+                                 log_error='child_tao_nv_only not found', no_click=True)
+        if not is_success:
+            return True
         print('Xoa nhan vat ...')
         is_success = False
         for idx in range(0, 500):
@@ -380,16 +469,15 @@ class SlavePT:
         self.app.FSOnlineClass.type_keys('{TAB}')
         time.sleep(0.2)
         self.app.FSOnlineClass.type_keys('{ENTER}')
-        time.sleep(0.2)
+
         is_success = True
         for idx in range(0, 1000):
-            time.sleep(0.2)
             path_image_live = 'image/live_image/delete_nv_page.png'
             is_success = self.action(path_image_live, 'image/child_wait_delete_nv.png', 20, 15,
                                      log_error='child_xoa_nv_buttom not found', no_click=True)
             if not is_success:
                 break
-            time.sleep(0.2)
+            time.sleep(0.1)
             path_image_live = 'image/live_image/delete_nv_page.png'
             print('Kien tra bao tri')
             is_success = self.action(path_image_live, 'image/child_bao_tri.png', 20, 15,
@@ -397,28 +485,22 @@ class SlavePT:
             if is_success:
                 self.app.FSOnlineClass.type_keys('{ENTER}')
                 break
+            time.sleep(0.2)
         print('Xoa nhan vat Thanh cong....')
         return True
 
     def create_nv(self):
-        time.sleep(0.5)
+        time.sleep(0.2)
         print('Tao nhan vat ...')
         path_image_live = 'image/live_image/create_nv_page.png'
         is_success = self.action(path_image_live, 'image/child_create_nv_buttom.png', 20, 15,
                                  log_error='child_create_nv_buttom not found')
         if not is_success:
             return False
-        time.sleep(1)
-        print('Dat ten nhan viet ...')
-        # path_image_live = 'image/live_image/create_name_nv_page.png'
-        # is_success = self.action(path_image_live, 'image/child_name_nv_page.png', 20, 15,
-        #                          log_error='child_create_nv_buttom not found')
-        # if not is_success:
-        #     return False
+        time.sleep(0.2)
 
         for idx in range(0, 30):
             self.app.FSOnlineClass.type_keys('{BACKSPACE}')
-        time.sleep(0.2)
         self.app.FSOnlineClass.type_keys(self.NAME_NV)
         time.sleep(0.1)
         print('Xac nhan dat ten ')
@@ -464,6 +546,7 @@ class SlavePT:
                                      log_error='child_xoa_nv_buttom not found', no_click=True)
             if is_success:
                 return False
+        time.sleep(0.2)
         print(' loggin_tk ... ')
         path_image_live = 'image/live_image/login_page.png'
         skip_enter_server = self.action(path_image_live, 'image/child_vao_game_button.png', 20, 15,
@@ -473,53 +556,58 @@ class SlavePT:
                 return False
         else:
             print('Nhap pass luon')
+            pass
         for elem in range(0, 1000):
-            time.sleep(0.2)
+
             path_image_live = 'image/live_image/login_page.png'
             is_success = self.action(path_image_live, 'image/child_vao_game_button.png', 20, 15,
-                                     log_error='child_vao_game_button not found', no_click=True)
+                                     log_error='child_vao_game_button 2 not found', no_click=True)
             if is_success:
                 break
             time.sleep(0.2)
             path_image_live = 'image/live_image/login_page.png'
             is_success = self.action(path_image_live, 'image/child_server_bao_tri.png', 20, 15,
-                                     log_error='child_vao_game_button not found', no_click=True)
+                                     log_error='child_server_bao_tri not found', no_click=True)
             if is_success:
                 time.sleep(0.2)
                 self.app.FSOnlineClass.type_keys('{ENTER}')
                 if not self.login_button_action():
                     return False
-        for idx2 in range(0, 100):
-            print('Nhap pass ')
             time.sleep(0.2)
-            self.app.FSOnlineClass.type_keys(self.PASS)
-            time.sleep(1)
-            print('Nhap ENTER pass ')
-            self.app.FSOnlineClass.type_keys('{ENTER}')
+
+        for idx2 in range(0, 100):
+            is_input_tk = self.nhap_tk()
+            if not is_input_tk:
+                self.init_game_windown(skip_delete_nv=True)
+                break
+
             is_success = False
             for idx_3 in range(0, 1000):
-                time.sleep(0.2)
                 is_success = self.action(path_image_live, 'image/child_xoa_nv_buttom.png', 20, 15,
                                          log_error='child_chon_nv_page not found', no_click=True)
                 if is_success:
+                    print('tim thay child_chon_nv_page')
                     break
 
-                is_tkdsd = self.action(path_image_live,'image/child_login_tkdsd.png' , 20, 15,
-                                         log_error='child_login_tkdsd not found', no_click=True)
+                is_tkdsd = self.action(path_image_live, 'image/child_login_tkdsd.png', 20, 15,
+                                       log_error='child_login_tkdsd not found', no_click=True)
                 if is_tkdsd:
+                    print('TK dang sung dung dang nhap lai')
                     time.sleep(0.2)
                     self.app.FSOnlineClass.type_keys('{ENTER}')
                     break
 
                 path_image_live = 'image/live_image/login_page.png'
                 is_svbt = self.action(path_image_live, 'image/child_server_bao_tri.png', 20, 15,
-                                         log_error='child_server_bao_tri not found', no_click=True)
+                                      log_error='child_server_bao_tri not found', no_click=True)
                 if is_svbt:
+                    print('Server dang bao tri dang nhap lai')
                     time.sleep(0.2)
                     self.app.FSOnlineClass.type_keys('{ENTER}')
                     self.loggin_tk(skip_delete_nv=True)
+                    is_success = True
                     break
-
+                time.sleep(0.2)
             if is_success:
                 break
         if not skip_delete_nv:
@@ -528,6 +616,7 @@ class SlavePT:
                 self.check_tao_nv_failed()
                 print('Login Thanh cong')
             else:
+                pass
                 print('Login That bai')
 
         return True
@@ -538,7 +627,7 @@ class SlavePT:
     def check_login_success(self, num_loop=1000):
         self.app.FSOnlineClass.set_focus()
         for idx in range(0, num_loop):
-            time.sleep(0.2)
+
             path_image_live = 'image/live_image/game_windown.png'
             is_success = self.action(path_image_live, 'image/child_check_login_success.png', 20, 15,
                                      log_error='check_login_success not found', no_click=True)
@@ -546,30 +635,39 @@ class SlavePT:
             if is_success:
                 print('Da vao game')
                 break
-            time.sleep(0.2)
             path_image_live = 'image/live_image/game_windown.png'
             is_success = self.action(path_image_live, 'image/check_login_bao_tri.png', 20, 15,
                                      log_error='check_login_success not found', no_click=True)
-            time.sleep(0.2)
+            time.sleep(0.1)
             path_image_live = 'image/live_image/game_windown.png'
             is_cmc = self.action(path_image_live, 'image/check_chon_may_chu.png', 20, 15,
-                                     log_error='check_chon_may_chu not found', no_click=True)
+                                 log_error='check_chon_may_chu not found', no_click=True)
             if is_success or is_cmc:
                 self.app.FSOnlineClass.type_keys('{ENTER}')
                 time.sleep(0.2)
                 self.loggin_tk()
-
+            time.sleep(0.2)
 
         print('Chua vao game')
 
     def slave_gd_enter(self):
         self.app.FSOnlineClass.set_focus()
+        for idx in range(0, 100):
+            path_image_live = 'image/live_image/game_windown.png'
+            is_success = self.action(path_image_live, 'image/check_cam_do.png', 20, 15,
+                                     log_error='check_cam_do not found', no_click=True)
+            if not is_success:
+                break
+            else:
+                self.app.FSOnlineClass.type_keys('{ESC}')
+                time.sleep(0.2)
+
         path_image_live = 'image/live_image/game_windown.png'
         is_success = self.action(path_image_live, 'image/child_gd_slave_button.png', 20, 15,
                                  log_error='child_gd_slave_button not found')
         if not is_success:
             return False
-        time.sleep(0.5)
+        time.sleep(0.2)
         print('Kiem tra ten NV')
         path_image_live = 'image/live_image/game_windown.png'
         is_success = self.action(path_image_live, self.BILL_GATES_NAME, 20, 15,
@@ -584,7 +682,7 @@ class SlavePT:
             return False
 
         print('Kiem tra gd page')
-        time.sleep(0.5)
+        time.sleep(0.3)
         path_image_live = 'image/live_image/game_windown.png'
         is_success = self.action(path_image_live, 'image/child_gd_page.png', 20, 10,
                                  log_error='child_gd_page not found', no_click=True)
@@ -634,33 +732,73 @@ class SlavePT:
 
         return is_success
 
+    def exit_game_windown(self):
+        self.app.kill()
 
-PT_INFO = {
-    'PTQH': 'Phong Than 2 Quan Hung Tranh',
-    'PT2': 'PhongThan2.Com',
-    'PTV': 'PhongThanViet.com'
-}
+    def init_game_windown(self, first_init=False, skip_delete_nv=False):
+        print('Chay lai game')
+        path_image_live = 'image/live_image/init_game_windown.png'
+
+        self.app = pywinauto.application.Application().start(cmd_line=r'C:\PhongThan2\game.exe')
+        time.sleep(1)
+        is_success = False
+        for idx in range(0, 100):
+            is_success = self.action(path_image_live, 'image/init_game.png', 20, 10,
+                                     log_error='init_game not found', no_click=True)
+            if is_success:
+                break
+        if not is_success:
+            exit(0)
+
+        if first_init:
+            pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+        else:
+            pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+            for pt_window in pt_windows:
+                self.app = pywinauto.application.Application().connect(handle=pt_window)
+                is_success = self.action(path_image_live, 'image/init_game.png', 20, 10,
+                                         log_error='init_game not found', no_click=True)
+                if is_success:
+                    break
+        if not is_success:
+            exit(0)
+        print('Start game ......')
+        self.app.FSOnlineClass.type_keys('{ENTER}')
+        time.sleep(0.2)
+        is_success = self.action(path_image_live, 'image/init_game_btn.png', 20, 10,
+                                 log_error='init_game_btn not found')
+        if not is_success:
+            exit(0)
+        time.sleep(0.2)
+        is_success = self.action(path_image_live, 'image/chon_server.png', 20, 10,
+                                 log_error='chon_server not found')
+        if not is_success:
+            exit(0)
+        self.loggin_tk(skip_delete_nv=skip_delete_nv)
+        return is_success
+
 
 if __name__ == "__main__":
-    slave_handle = 263324  # PTHB
+    slave_handle = 1246168  # PTHB
     PT_NAME = 'PT2'
     # slave_handle = 3952 #pt2
     mywindows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
     print(mywindows)
-    [1640344, 3015796]
+
     start = datetime.now()
-    app = pywinauto.application.Application().connect(handle=slave_handle)
-    app.FSOnlineClass.set_focus()
+    # app = pywinauto.application.Application().connect(handle=slave_handle)
+    # app.FSOnlineClass.set_focus()
     slave_pt = SlavePT(slave_handle, name_pt=PT_NAME)
 
     slave_pt.NUM_COIN = '20'
     TOTAL_COIN = 4000
-
     LOOP_TIME = int(TOTAL_COIN / int(slave_pt.NUM_COIN))
     print('LOOP_TIME : ', LOOP_TIME)
     print('sO TIEN DU KIEN : ', TOTAL_COIN * 50 - (LOOP_TIME * 0.2 * 50))
     time.sleep(2)
     for elem in range(0, LOOP_TIME):
+        # try:
+        print('Giao dich lan thu ', elem)
         slave_pt.check_login_success()
         if slave_pt.ktc_open():
             slave_pt.use_dnp()
@@ -692,7 +830,9 @@ if __name__ == "__main__":
                     slave_pt.create_nv()
                     slave_pt.check_tao_nv_failed()
         slave_pt.loggin_tk()
-        os.system('cls')
+        # except Exception as e:
+        #     print(str(e))
+        #     pass
     # slave_pt.loggin_tk()
     # slave_pt.delete_nv()
     slave_pt.socket_client.send_message(DISCONNECT_MSG, 'init')
