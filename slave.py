@@ -372,10 +372,10 @@ class SlavePT:
                 self.app.FSOnlineClass.type_keys('{BACKSPACE}')
             time.sleep(0.1)
             self.app.FSOnlineClass.type_keys(self.TK)
-            time.sleep(0.1)
+            time.sleep(0.2)
             self.app.FSOnlineClass.type_keys('{TAB}')
             print('Nhap pass ')
-            time.sleep(0.2)
+            time.sleep(0.4)
             self.app.FSOnlineClass.type_keys(self.PASS)
             time.sleep(0.1)
             print('Nhap ENTER pass ')
@@ -722,7 +722,9 @@ class SlavePT:
             if not is_success:
                 self.app.FSOnlineClass.type_keys('{ESC}')
                 return False
-
+        elif msg == 'OUT':
+            print('Da full ruong out')
+            exit(0)
         return True
 
     def exit_dnp_opening(self):
@@ -797,42 +799,44 @@ if __name__ == "__main__":
     print('sO TIEN DU KIEN : ', TOTAL_COIN * 50 - (LOOP_TIME * 0.2 * 50))
     time.sleep(2)
     for elem in range(0, LOOP_TIME):
-        # try:
-        print('Giao dich lan thu ', elem)
-        slave_pt.check_login_success()
-        if slave_pt.ktc_open():
-            slave_pt.use_dnp()
-            slave_pt.exit_dnp_opening()
-            slave_pt.go_pawn()
-            if slave_pt.pawn_coin():
-                slave_pt.socket_client.send_message('GD', 'BillGatePT')
-                print('Cho Bill Gate phan hoi')
-                msg = slave_pt.socket_client.recv_msg()
-                is_success = True
-                if msg == 'THGD':
-                    for idx in range(0, 500):
-                        if not is_success:
-                            msg = slave_pt.socket_client.recv_msg()
-                        is_success = slave_pt.slave_gd_enter()
-                        if is_success:
-                            print('Goi message san sang gd')
-                            slave_pt.socket_client.send_message('GD_OK', 'BillGatePT')
-                            break
-                        else:
-                            slave_pt.socket_client.send_message('GD_FAILED', 'BillGatePT')
-                            is_success = False
+        try:
+            print('Giao dich lan thu ', elem)
+            slave_pt.check_login_success()
+            if slave_pt.ktc_open():
+                slave_pt.use_dnp()
+                slave_pt.exit_dnp_opening()
+                slave_pt.go_pawn()
+                if slave_pt.pawn_coin():
+                    slave_pt.socket_client.send_message('GD', 'BillGatePT')
+                    print('Cho Bill Gate phan hoi')
+                    msg = slave_pt.socket_client.recv_msg()
+                    is_success = True
+                    if msg == 'THGD':
+                        for idx in range(0, 500):
+                            if not is_success:
+                                msg = slave_pt.socket_client.recv_msg()
+                            is_success = slave_pt.slave_gd_enter()
+                            if is_success:
+                                print('Goi message san sang gd')
+                                slave_pt.socket_client.send_message('GD_OK', 'BillGatePT')
+                                break
+                            else:
+                                slave_pt.socket_client.send_message('GD_FAILED', 'BillGatePT')
+                                is_success = False
 
-                    time.sleep(1)
-                    is_success = slave_pt.slave_gd()
-        if slave_pt.exit_game() != -1:
-            if not slave_pt.loggin_tk(check_delete_buttom=True):
-                if slave_pt.delete_nv():
-                    slave_pt.create_nv()
-                    slave_pt.check_tao_nv_failed()
-        slave_pt.loggin_tk()
-        # except Exception as e:
-        #     print(str(e))
-        #     pass
+                        time.sleep(1)
+                        is_success = slave_pt.slave_gd()
+            if slave_pt.exit_game() != -1:
+                if not slave_pt.loggin_tk(check_delete_buttom=True):
+                    if slave_pt.delete_nv():
+                        slave_pt.create_nv()
+                        slave_pt.check_tao_nv_failed()
+            slave_pt.loggin_tk()
+        except Exception as e:
+            print(str(e))
+            slave_pt.exit_game_windown()
+            slave_pt.init_game_windown()
+
     # slave_pt.loggin_tk()
     # slave_pt.delete_nv()
     slave_pt.socket_client.send_message(DISCONNECT_MSG, 'init')
