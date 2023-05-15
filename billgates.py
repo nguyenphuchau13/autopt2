@@ -368,9 +368,19 @@ class BillGatePT:
 
     def confirm_gd(self):
         print('confirm_gd ......')
+        path_image_live = 'image/live_image/game_windown.png'
         msg = master_pt.socket_client.recv_msg()
         self.app_bill_gates.FSOnlineClass.set_focus()
-        path_image_live = 'image/live_image/game_windown.png'
+        # self.app_bill_gates.FSOnlineClass.type_keys('{F6}')
+        # time.sleep(0.2)
+
+        # is_success = self.action(path_image_live, 'image/full_2b.png', 20, 10,
+        #                          log_error='full_2b not found', no_click=True)
+        # if is_success:
+        #     print('Da du 2b thoat')
+        #     master_pt.socket_client.send_message('OUT', 'SlavePT')
+        #     exit(0)
+
         is_success = self.action(path_image_live, 'image/child_gd_page.png', 20, 10,
                                  log_error='child_gd_page not found', no_click=True)
         if not is_success:
@@ -428,13 +438,15 @@ if __name__ == "__main__":
         print('Waiting msg')
         msg = master_pt.socket_client.recv_msg()
         if msg == 'GD':
-            for idx in range(0, 100):
+            count_failed = 0
+            for idx in range(0, 1000):
                 is_success = master_pt.bill_gates_gd()
                 if is_success:
                     master_pt.socket_client.send_message('THGD', 'SlavePT')
                     print('Dang cho GD ...')
                     msg = master_pt.socket_client.recv_msg()
                     if msg == 'GD_OK':
+                        count_failed = 0
                         print('Chuan bi gd')
                         if master_pt.confirm_gd():
                             print('Giao Dich Lan thu ', num_gd)
@@ -443,6 +455,16 @@ if __name__ == "__main__":
                     else:
                         master_pt.exit_gd_page()
                         print('GD that bai tien hanh gd lai')
+                        count_failed += 1
+                        print('Failed time : ',count_failed)
+                else:
+                    count_failed += 1
+                    print('Failed time : ', count_failed)
+                if count_failed == 10:
+                    print('Thoat gamne va dn lai')
+                    master_pt.exit_game_windown()
+                    master_pt.init_game_windown()
+                    count_failed = 0
                 time.sleep(0.2)
 
     # master_pt.socket_client.send_message(DISCONNECT_MSG, 'init')
