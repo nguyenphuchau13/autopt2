@@ -90,24 +90,55 @@ def adjust_pos(x_pos, y_pos, x_adjust, y_adjust):
     x_pos = x_pos + x_adjust
     y_pos = y_pos + y_adjust
     return x_pos, y_pos
-
+PT_INFO = {
+    'PTQH': 'Phong Than 2 Quan Hung Tranh',
+    'PT2': 'PhongThan2.Com - ',
+    'PTV': 'PhongThanViet.com'
+}
+NV_INFO = {
+    'Failer': {
+        'TK': 'acnhansat2',
+        'BILL_GATES_NAME': 'image/bill_gates_image.png',
+        'NAME_NV': 'mrslave102',
+        'PASS': '0964892408a',
+        'PT_PATH': r'C:\PhongThan2\game.exe',
+        'PT_NAME': 'PhongThan2.Com'
+    },
+    'Zero': {
+        'TK': 'acnhansat99999',
+        'BILL_GATES_NAME': 'image/bill_gates_image_zero.png',
+        'NAME_NV': 'mrslave103',
+        'PASS': '0964892408a',
+        'PT_PATH': r'C:\PhongThan2\game.exe',
+        'PT_NAME': 'PhongThan2.Com'
+    },
+    'Slave': {
+        'TK': 'acnhansat2',
+        'BILL_GATES_NAME': 'image/bill_gates_image_qh_slave.png',
+        'NAME_NV': 'mrslave102',
+        'PASS': '0964892408a',
+        'PT_PATH': r'C:\PhongThan3\PhongThan_II_QuanHung\game.exe',
+        'PT_NAME': 'Phong Than 2 Quan Hung Tranh'
+    }
+}
 
 class BillGatePT:
-    TK_POS_X = '179'
-    TK_POS_Y = '188'
-    NUM_COIN = '1'
-    PASS = '0964892408a'
-    NUMBER_NV = 101
-    NAME_NV = 'mrslave102'
-    # PT_LOGO = 'image/child_chon_nv_page_pt_viet.png'
-    CLIENT_NAME = 'BillGatePT'
-    PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
-    TK = 'acnhansat2'
 
-    def __init__(self, bill_gates_handle=None):
-        self.name_nv = ''
+    CLIENT_NAME = 'BillGatePT'
+
+    def __init__(self, bill_gates_handle=None, nv_key_info='Failer'):
+        self.NV_INFO = NV_INFO[nv_key_info]
+        self.PASS = self.NV_INFO['PASS']
+        self.NAME_NV = self.NV_INFO['NAME_NV']
+        self.TK = self.NV_INFO['TK']
+        self.BILL_GATES_NAME = self.NV_INFO['BILL_GATES_NAME']
+        self.PT_PATH = self.NV_INFO['PT_PATH']
+        self.PT_NAME = self.NV_INFO['PT_NAME']
         try:
-            self.app_bill_gates = pywinauto.application.Application().connect(handle=bill_gates_handle)
+            if bill_gates_handle:
+                self.app_bill_gates = pywinauto.application.Application().connect(handle=bill_gates_handle)
+            else:
+                raise
         except:
             if not self.find_bill_gates_window():
                 self.init_game_windown()
@@ -116,17 +147,20 @@ class BillGatePT:
     def find_bill_gates_window(self):
         self.close_all_login_page()
         path_image_live = 'image/live_image/find_slave_window.png'
-        pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+        pt_windows = pywinauto.findwindows.find_windows(title_re=self.PT_NAME)
         is_success = False
+        print(pt_windows)
         for pt_window in pt_windows:
             self.app_bill_gates = pywinauto.application.Application().connect(handle=pt_window)
-            is_success = self.action(path_image_live, 'image/bill_gates_image.png', 20, 10,
+            print(self.BILL_GATES_NAME)
+            is_success = self.action(path_image_live, self.BILL_GATES_NAME, 20, 10,
                                      log_error='bill_gates_image not found', no_click=True)
 
             if is_success:
                 print('Da tim thay bill gates ..')
                 break
         if not is_success:
+            print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
             self.app_bill_gates = None
         return is_success
 
@@ -135,7 +169,7 @@ class BillGatePT:
 
     def close_all_login_page(self):
         path_image_live = 'image/live_image/close_all_login_page.png'
-        pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+        pt_windows = pywinauto.findwindows.find_windows(title_re=self.PT_NAME)
         for pt_window in pt_windows:
             self.app_bill_gates = pywinauto.application.Application().connect(handle=pt_window)
             is_login_page = self.action(
@@ -147,7 +181,7 @@ class BillGatePT:
     def init_game_windown(self, first_init=False):
         path_image_live = 'image/live_image/init_game_windown.png'
 
-        self.app_bill_gates = pywinauto.application.Application().start(cmd_line=r'C:\PhongThan2\game.exe')
+        self.app_bill_gates = pywinauto.application.Application().start(cmd_line=self.PT_PATH)
         time.sleep(1)
         is_success = False
         for idx in range(0, 100):
@@ -159,9 +193,9 @@ class BillGatePT:
             exit(0)
 
         if first_init:
-            pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+            pt_windows = pywinauto.findwindows.find_windows(title_re=self.PT_NAME)
         else:
-            pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+            pt_windows = pywinauto.findwindows.find_windows(title_re=self.PT_NAME)
             for pt_window in pt_windows:
                 self.app_bill_gates = pywinauto.application.Application().connect(handle=pt_window)
                 is_success = self.action(path_image_live, 'image/init_game.png', 20, 10,
@@ -417,22 +451,10 @@ class BillGatePT:
             print('Da close gd page')
 
 
-PT_INFO = {
-    'PTQH': 'Phong Than 2 Quan Hung Tranh',
-    'PT2': 'PhongThan2.Com - ',
-    'PTV': 'PhongThanViet.com'
-}
-if __name__ == "__main__":
-    # bill_gates_handle = 2033310  # pthb
-    PT_NAME = 'PT2'
-    # bill_gates_handle = 460768 # pt 2
-    # mywindows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
-    # print(mywindows)
-    # # [1640344, 3015796]
-    # app = pywinauto.application.Application().connect(handle=bill_gates_handle)
-    # app.FSOnlineClass.set_focus()
 
-    master_pt = BillGatePT()
+if __name__ == "__main__":
+
+    master_pt = BillGatePT(nv_key_info='Failer')
     num_gd = 1
     while True:
         print('Waiting msg')
