@@ -100,25 +100,71 @@ def adjust_pos(x_pos, y_pos, x_adjust, y_adjust):
     x_pos = x_pos + x_adjust
     y_pos = y_pos + y_adjust
     return x_pos, y_pos
+PT_INFO = {
+    'PTQH': 'Phong Than 2 Quan Hung Tranh',
+    'PT2': 'PhongThan2.Com',
+    'PTV': 'PhongThanViet.com'
+}
+
+NV_INFO = {
+    'Failer': {
+        'TK': 'acnhansat1',
+        'CREATE_NV_ONLY': 'image/child_tao_nv_only.png',
+        'BILL_GATES_NAME': 'image/child_bill_gate_name.png',
+        'PT_LOGO': 'image/child_chon_nv_page_pt_2.png',
+        'SLAVE_NAME': 'image/slave_image.png',
+        'NAME_NV': 'mrslave102',
+        'PASS': '0964892408a',
+        'PT_PATH': r'C:\PhongThan2\game.exe',
+        'PT_NAME': 'PhongThan2.Com'
+
+    },
+    'Zero': {
+        'TK': 'acnhansat4',
+        'CREATE_NV_ONLY': 'image/child_tao_nv_only_zero.png',
+        'BILL_GATES_NAME': 'image/child_bill_gate_name_zero.png',
+        'PT_LOGO': 'image/child_chon_nv_page_pt_2.png',
+        'SLAVE_NAME': 'image/slave_image_zero.png',
+        'NAME_NV': 'mrslave103',
+        'PASS': '0964892408a',
+        'PT_PATH': r'C:\PhongThan2\game.exe',
+        'PT_NAME': 'PhongThan2.Com'
+
+    },
+    'Slave': {
+        'TK': 'acnhansat1',
+        'CREATE_NV_ONLY': 'image/child_tao_nv_only_slave.png',
+        'BILL_GATES_NAME': 'image/child_bill_gate_name_qh_slave.png',
+        'PT_LOGO': 'image/child_chon_nv_page_pt_qh.png',
+        'SLAVE_NAME': 'image/slave_image_qh_slave.png',
+        'NAME_NV': 'mrslave102',
+        'PASS': '0964892408a',
+        'PT_PATH': r'C:\PhongThan3\PhongThan_II_QuanHung\game.exe',
+        'PT_NAME': 'Phong Than 2 Quan Hung Tranh',
+    },
+}
 
 
 class SlavePT:
     TK_POS_X = '178'
     TK_POS_Y = '189'
     NUM_COIN = '20'
-    PASS = '0964892408a'
-    NUMBER_NV = 101
-    NAME_NV = 'mrslave102'
-    # PT_LOGO = 'image/child_chon_nv_page_pt_viet.png'
-    # CLIENT_NAME = 'BillGatePT'
     CLIENT_NAME = 'SlavePT'
-    TK = 'acnhansat1'
-    # BILL_GATES_NAME = 'image/child_bill_gate_name.png'
-    # PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
 
-    def __init__(self, master_handle=None, name_pt='PTV'):
-        self.name_nv = ''
+    def __init__(self, master_handle=None, nv_info_key='Failer'):
+        self.NV_INFO = NV_INFO[nv_info_key]
+        self.NAME_NV = self.NV_INFO['NAME_NV']
+        self.PASS = self.NV_INFO['PASS']
+        self.TK = self.NV_INFO['TK']
+        self.CREATE_NV_ONLY = self.NV_INFO['CREATE_NV_ONLY']
+        self.SLAVE_NAME = self.NV_INFO['SLAVE_NAME']
+        self.BILL_GATES_NAME = self.NV_INFO['BILL_GATES_NAME']
+        self.PT_PATH = self.NV_INFO['PT_PATH']
+        self.PT_LOGO = self.NV_INFO['PT_LOGO']
+        self.PT_NAME = self.NV_INFO['PT_NAME']
+
         self.pip_handle = master_handle
+
         try:
             self.app = pywinauto.application.Application().connect(handle=master_handle)
         except:
@@ -126,26 +172,15 @@ class SlavePT:
                 self.init_game_windown()
 
         self.socket_client = client.SocketClient(self.CLIENT_NAME)
-        if name_pt == 'PTV':
-            self.BILL_GATES_NAME = 'image/child_bill_gate_name_pt_viet.png'
-            self.PT_LOGO = 'image/child_chon_nv_page_pt_viet.png'
-        elif name_pt == 'PT2':
-            self.BILL_GATES_NAME = 'image/child_bill_gate_name.png'
-            self.PT_LOGO = 'image/child_chon_nv_page_pt_2.png'
-            self.bill_gates_name = 'image/bill_gates_image.png'
-            self.slave_name = 'image/slave_image.png'
-        elif name_pt == 'PTQH':
-            self.BILL_GATES_NAME = 'image/child_bill_gate_name_pt_viet.png'
-            self.PT_LOGO = 'image/child_chon_nv_page_pt_qh.png'
 
     def find_slave_window(self):
         self.close_all_login_page()
         path_image_live = 'image/live_image/find_slave_window.png'
-        pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+        pt_windows = pywinauto.findwindows.find_windows(title_re=self.PT_NAME)
         is_success = False
         for pt_window in pt_windows:
             self.app = pywinauto.application.Application().connect(handle=pt_window)
-            is_success = self.action(path_image_live, 'image/slave_image.png', 20, 10,
+            is_success = self.action(path_image_live, self.SLAVE_NAME, 20, 10,
                                      log_error='slave_image not found', no_click=True)
             if is_success:
                 break
@@ -155,7 +190,7 @@ class SlavePT:
 
     def close_all_login_page(self):
         path_image_live = 'image/live_image/close_all_login_page.png'
-        pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+        pt_windows = pywinauto.findwindows.find_windows(title_re=self.PT_NAME)
         for pt_window in pt_windows:
             self.app = pywinauto.application.Application().connect(handle=pt_window)
             is_login_page = self.action(
@@ -381,6 +416,7 @@ class SlavePT:
             print('Nhap ENTER pass ')
             self.app.FSOnlineClass.type_keys('{ENTER}')
         return is_success
+
     def action_open_out_page(self):
         print('action_open_out_page .....')
         is_success = False
@@ -446,7 +482,7 @@ class SlavePT:
         time.sleep(0.2)
         print('check da xoa nv')
         path_image_live = 'image/live_image/delete_nv_page.png'
-        is_success = self.action(path_image_live, 'image/child_tao_nv_only.png', 20, 15,
+        is_success = self.action(path_image_live, self.CREATE_NV_ONLY, 20, 15,
                                  log_error='child_tao_nv_only not found', no_click=True)
         if not is_success:
             return True
@@ -518,10 +554,8 @@ class SlavePT:
 
         if is_success:
             self.app.FSOnlineClass.type_keys('{ENTER}')
-            self.name_nv = ''
             return False
         else:
-            self.name_nv = self.NAME_NV.format(self.NUMBER_NV)
             return True
 
     def login_button_action(self):
@@ -557,7 +591,7 @@ class SlavePT:
         else:
             print('Nhap pass luon')
             pass
-        for elem in range(0, 1000):
+        for elem in range(0, 100):
 
             path_image_live = 'image/live_image/login_page.png'
             is_success = self.action(path_image_live, 'image/child_vao_game_button.png', 20, 15,
@@ -582,7 +616,7 @@ class SlavePT:
                 break
 
             is_success = False
-            for idx_3 in range(0, 1000):
+            for idx_3 in range(0, 100):
                 is_success = self.action(path_image_live, 'image/child_xoa_nv_buttom.png', 20, 15,
                                          log_error='child_chon_nv_page not found', no_click=True)
                 if is_success:
@@ -741,7 +775,7 @@ class SlavePT:
         print('Chay lai game')
         path_image_live = 'image/live_image/init_game_windown.png'
 
-        self.app = pywinauto.application.Application().start(cmd_line=r'C:\PhongThan2\game.exe')
+        self.app = pywinauto.application.Application().start(cmd_line=self.PT_PATH)
         time.sleep(1)
         is_success = False
         for idx in range(0, 100):
@@ -753,9 +787,9 @@ class SlavePT:
             exit(0)
 
         if first_init:
-            pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+            pt_windows = pywinauto.findwindows.find_windows(title_re=self.PT_NAME)
         else:
-            pt_windows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
+            pt_windows = pywinauto.findwindows.find_windows(title_re=self.PT_NAME)
             for pt_window in pt_windows:
                 self.app = pywinauto.application.Application().connect(handle=pt_window)
                 is_success = self.action(path_image_live, 'image/init_game.png', 20, 10,
@@ -781,19 +815,12 @@ class SlavePT:
 
 
 if __name__ == "__main__":
-    slave_handle = 1246168  # PTHB
-    PT_NAME = 'PT2'
-    # slave_handle = 3952 #pt2
-    mywindows = pywinauto.findwindows.find_windows(title_re=PT_INFO[PT_NAME])
-    print(mywindows)
 
     start = datetime.now()
-    # app = pywinauto.application.Application().connect(handle=slave_handle)
-    # app.FSOnlineClass.set_focus()
-    slave_pt = SlavePT(slave_handle, name_pt=PT_NAME)
+    slave_pt = SlavePT(nv_info_key='Failer')
 
     slave_pt.NUM_COIN = '20'
-    TOTAL_COIN = 4000
+    TOTAL_COIN = 2000
     LOOP_TIME = int(TOTAL_COIN / int(slave_pt.NUM_COIN))
     print('LOOP_TIME : ', LOOP_TIME)
     print('sO TIEN DU KIEN : ', TOTAL_COIN * 50 - (LOOP_TIME * 0.2 * 50))
@@ -837,7 +864,5 @@ if __name__ == "__main__":
             slave_pt.exit_game_windown()
             slave_pt.init_game_windown()
 
-    # slave_pt.loggin_tk()
-    # slave_pt.delete_nv()
     slave_pt.socket_client.send_message(DISCONNECT_MSG, 'init')
     print('Time running : ', datetime.now() - start)
