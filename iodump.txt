@@ -3856,3 +3856,422 @@
 2023-5-20 13:54:59	CGameClient::Startup - OK
 2023-5-20 13:54:59	CGameClient::ConnectTo OK
 2023-5-20 13:55:1	CConnectManager::Cleanup OK
+2023-5-29 22:2:28	CGameClient::Startup - OK
+2023-5-29 22:2:28	CGameClient::ConnectTo OK
+2023-5-29 22:2:38	CGameClient::Startup - OK
+2023-5-29 22:2:38	CGameClient::ConnectTo OK
+2023-5-29 22:2:38	CConnectManager::Cleanup OK
+2023-5-30 8:12:42	CConnectManager::Cleanup OK
+2023-5-30 8:12:42	CGameClient::Startup - OK
+2023-5-30 8:12:42	CGameClient::ConnectTo OK
+2023-5-30 8:12:43	CGameClient::Startup - OK
+2023-5-30 8:12:43	CGameClient::ConnectTo OK
+2023-5-30 8:12:43	CConnectManager::Cleanup OK
+2023-5-31 18:42:15	CGameClient::Startup - OK
+2023-5-31 18:42:15	CGameClient::ConnectTo OK
+2023-5-31 18:42:30	CConnectManager::Cleanup OK
+2023-5-31 18:43:23	CGameClient::Startup - OK
+2023-5-31 18:43:23	CGameClient::ConnectTo OK
+2023-5-31 18:43:34	CGameClient::Startup - OK
+2023-5-31 18:43:34	CGameClient::ConnectTo OK
+2023-5-31 18:43:34	CConnectManager::Cleanup OK
+2023-6-1 0:0:4	CConnectManager::Cleanup OK
+2023-6-1 0:0:7	CGameClient::Startup - OK
+2023-6-1 0:0:12	CConnectManager::Cleanup OK
+2023-6-1 0:0:12	CGameClient::Startup - OK
+2023-6-1 0:0:17	CConnectManager::Cleanup OK
+2023-6-1 0:0:17	CGameClient::Startup - OK
+2023-6-1 0:0:23	CConnectManager::Cleanup OK
+2023-6-1 0:0:23	CGameClient::Startup - OK
+2023-6-1 0:0:33	CConnectManager::Cleanup OK
+2023-6-1 0:0:33	CGameClient::Startup - OK
+2023-6-1 0:0:43	CConnectManager::Cleanup OK
+2023-6-1 0:0:43	CGameClient::Startup - OK
+2023-6-1 0:0:48	CConnectManager::Cleanup OK
+2023-6-2 10:23:56	CGameClient::Startup - OK
+2023-6-2 10:23:56	CGameClient::ConnectTo OK
+2023-6-2 10:24:11	CConnectManager::Cleanup OK
+2023-6-2 10:24:22	CGameClient::Startup - OK
+2023-6-2 10:24:23	CGameClient::ConnectTo OK
+2023-6-2 10:24:32	CGameClient::Startup - OK
+2023-6-2 10:24:32	CGameClient::ConnectTo OK
+2023-6-2 10:24:32	CConnectManager::Cleanup OK
+2023-6-3 1:10:57	CGameClient::Startup - OK
+2023-6-3 1:10:57	CGameClient::ConnectTo OK
+2023-6-3 1:11:29	CConnectManager::Cleanup OK
+2023-6-3 9:55:6	CConnectManager::Cleanup OK
+2023-6-3 9:55:8	CGameClient::Startup - OK
+2023-6-3 9:55:24	CConnectManager::Cleanup OK
+2023-6-4 11:0:39	CGameClient::Startup - OK
+2023-6-4 11:0:39	CGameClient::ConnectTo OK
+2023-6-4 11:0:47	CGameClient::Startup - OK
+2023-6-4 11:0:47	CGameClient::ConnectTo OK
+2023-6-4 11:0:47	CConnectManager::Cleanup OK
+2023-6-4 11:0:52	CConnectManager::Cleanup OK
+2023-6-4 11:0:52	CGameClient::Startup - OK
+2023-6-4 11:0:52	CGameClient::ConnectTo OK
+2023-6-4 11:2:37	CGameClient::Startup - OK
+2023-6-4 11:2:37	CGameClient::ConnectTo OK
+2023-6-4 11:2:45	CGameClient::Startup - OK
+2023-6-4 11:2:45	CGameClient::ConnectTo OK
+2023-6-4 11:2:45	CConnectManager::Cleanup OK
+2023-6-4 14:27:42	CConnectManager::Cleanup OK
+2023-6-4 14:27:42	CGameClient::Startup - OK
+2023-6-4 14:27:42	CGameClient::ConnectTo OK
+2023-6-4 14:39:48	CConnectManager::Cleanup OK
+2023-6-4 14:39:48	CGameClient::Startup - OK
+2023-6-4 14:39:48	CGameClient::ConnectTo OK
+2023-6-4 14:39:50	CConnectManager::Cleanup OK
+2023-6-4 14:39:51	CGameClient::Startup - OK
+2023-6-4 14:39:51	CGameClient::ConnectTo OK
+2023-6-4 14:40:2	CGameClient::Startup - OK
+2023-6-4 14:40:2	CGameClient::ConnectTo OK
+2023-6-4 14:40:2	CConnectManager::Cleanup OK
+2023-6-4 14:40:19	CConnectManager::Cleanup OK
+2023-6-4 14:40:19	CGameClient::Startup - OK
+2023-6-4 14:40:19	CGameClient::ConnectTo OK
+2023-8-26 21:5:38	CGameClient::Startup - OK
+2023-8-26 21:5:38	CGameClient::ConnectTo OK
+2023-8-26 21:5:48	CGameClient::Startup - OK
+2023-8-26 21:5:48	CGameClient::ConnectTo OK
+2023-8-26 21:5:48	CConnectManager::Cleanup OK
+2023-8-26 21:10:2	CGameClient::Startup - OK
+2023-8-26 21:10:2	CGameClient::ConnectTo OK
+2023-8-26 21:10:12	CGameClient::Startup - OK
+2023-8-26 21:10:12	CGameClient::ConnectTo OK
+2023-8-26 21:10:12	CConnectManager::Cleanup OK
+2023-8-26 22:34:9	CConnectManager::Cleanup OK
+2023-8-26 22:34:9	CGameClient::Startup - OK
+2023-8-26 22:34:9	CGameClient::ConnectTo OK
+2023-8-26 22:34:57	CConnectManager::Cleanup OK
+2023-8-26 22:34:57	CGameClient::Startup - OK
+2023-8-26 22:34:57	CGameClient::ConnectTo OK
+2023-8-26 22:39:23	CConnectManager::Cleanup OK
+2023-8-26 22:39:23	CGameClient::Startup - OK
+2023-8-26 22:39:23	CGameClient::ConnectTo OK
+2023-8-26 22:47:12	CConnectManager::Cleanup OK
+2023-8-26 22:47:12	CGameClient::Startup - OK
+2023-8-26 22:47:12	CGameClient::ConnectTo OK
+2023-8-26 22:48:48	CConnectManager::Cleanup OK
+2023-8-26 22:48:48	CGameClient::Startup - OK
+2023-8-26 22:48:48	CGameClient::ConnectTo OK
+2023-8-26 22:49:41	CConnectManager::Cleanup OK
+2023-8-26 22:49:41	CGameClient::Startup - OK
+2023-8-26 22:49:41	CGameClient::ConnectTo OK
+2023-8-26 22:50:54	CConnectManager::Cleanup OK
+2023-8-26 22:50:54	CGameClient::Startup - OK
+2023-8-26 22:50:54	CGameClient::ConnectTo OK
+2023-8-26 22:55:45	CConnectManager::Cleanup OK
+2023-8-26 22:55:45	CGameClient::Startup - OK
+2023-8-26 22:55:45	CGameClient::ConnectTo OK
+2023-8-26 22:57:0	CConnectManager::Cleanup OK
+2023-8-26 22:57:0	CGameClient::Startup - OK
+2023-8-26 22:57:0	CGameClient::ConnectTo OK
+2023-8-26 22:58:27	CConnectManager::Cleanup OK
+2023-8-26 22:58:27	CGameClient::Startup - OK
+2023-8-26 22:58:27	CGameClient::ConnectTo OK
+2023-8-26 23:1:14	CConnectManager::Cleanup OK
+2023-8-26 23:1:14	CGameClient::Startup - OK
+2023-8-26 23:1:14	CGameClient::ConnectTo OK
+2023-8-26 23:2:58	CConnectManager::Cleanup OK
+2023-8-26 23:2:58	CGameClient::Startup - OK
+2023-8-26 23:2:58	CGameClient::ConnectTo OK
+2023-8-26 23:3:49	CConnectManager::Cleanup OK
+2023-8-26 23:3:49	CGameClient::Startup - OK
+2023-8-26 23:3:49	CGameClient::ConnectTo OK
+2023-8-26 23:5:27	CConnectManager::Cleanup OK
+2023-8-26 23:5:27	CGameClient::Startup - OK
+2023-8-26 23:5:27	CGameClient::ConnectTo OK
+2023-8-26 23:6:42	CConnectManager::Cleanup OK
+2023-8-26 23:6:42	CGameClient::Startup - OK
+2023-8-26 23:6:42	CGameClient::ConnectTo OK
+2023-8-26 23:8:16	CConnectManager::Cleanup OK
+2023-8-26 23:8:16	CGameClient::Startup - OK
+2023-8-26 23:8:16	CGameClient::ConnectTo OK
+2023-8-26 23:9:4	CConnectManager::Cleanup OK
+2023-8-26 23:9:4	CGameClient::Startup - OK
+2023-8-26 23:9:4	CGameClient::ConnectTo OK
+2023-8-26 23:17:47	CConnectManager::Cleanup OK
+2023-8-26 23:17:47	CGameClient::Startup - OK
+2023-8-26 23:17:47	CGameClient::ConnectTo OK
+2023-8-26 23:18:27	CConnectManager::Cleanup OK
+2023-8-26 23:18:28	CGameClient::Startup - OK
+2023-8-26 23:18:28	CGameClient::ConnectTo OK
+2023-8-26 23:19:44	CConnectManager::Cleanup OK
+2023-8-26 23:19:44	CGameClient::Startup - OK
+2023-8-26 23:19:44	CGameClient::ConnectTo OK
+2023-8-26 23:19:58	CConnectManager::Cleanup OK
+2023-8-26 23:19:58	CGameClient::Startup - OK
+2023-8-26 23:19:58	CGameClient::ConnectTo OK
+2023-8-26 23:42:23	CConnectManager::Cleanup OK
+2023-8-26 23:42:23	CGameClient::Startup - OK
+2023-8-26 23:42:23	CGameClient::ConnectTo OK
+2023-8-26 23:43:29	CConnectManager::Cleanup OK
+2023-8-26 23:43:29	CGameClient::Startup - OK
+2023-8-26 23:43:29	CGameClient::ConnectTo OK
+2023-8-26 23:46:9	CConnectManager::Cleanup OK
+2023-8-26 23:46:9	CGameClient::Startup - OK
+2023-8-26 23:46:9	CGameClient::ConnectTo OK
+2023-8-26 23:46:11	CConnectManager::Cleanup OK
+2023-8-26 23:46:11	CGameClient::Startup - OK
+2023-8-26 23:46:11	CGameClient::ConnectTo OK
+2023-8-26 23:46:16	CGameClient::Startup - OK
+2023-8-26 23:46:16	CGameClient::ConnectTo OK
+2023-8-26 23:46:16	CConnectManager::Cleanup OK
+2023-8-26 23:46:27	CConnectManager::Cleanup OK
+2023-8-26 23:46:27	CGameClient::Startup - OK
+2023-8-26 23:46:27	CGameClient::ConnectTo OK
+2023-8-26 23:49:44	CConnectManager::Cleanup OK
+2023-8-26 23:49:44	CGameClient::Startup - OK
+2023-8-26 23:49:44	CGameClient::ConnectTo OK
+2023-8-26 23:50:51	CConnectManager::Cleanup OK
+2023-8-26 23:50:51	CGameClient::Startup - OK
+2023-8-26 23:50:51	CGameClient::ConnectTo OK
+2023-8-26 23:52:31	CConnectManager::Cleanup OK
+2023-8-26 23:52:31	CGameClient::Startup - OK
+2023-8-26 23:52:31	CGameClient::ConnectTo OK
+2023-8-26 23:53:41	CConnectManager::Cleanup OK
+2023-8-26 23:53:41	CGameClient::Startup - OK
+2023-8-26 23:53:42	CGameClient::ConnectTo OK
+2023-8-26 23:56:32	CConnectManager::Cleanup OK
+2023-8-26 23:56:32	CGameClient::Startup - OK
+2023-8-26 23:56:32	CGameClient::ConnectTo OK
+2023-8-26 23:57:5	CConnectManager::Cleanup OK
+2023-8-26 23:57:5	CGameClient::Startup - OK
+2023-8-26 23:57:5	CGameClient::ConnectTo OK
+2023-8-27 0:1:9	CConnectManager::Cleanup OK
+2023-8-27 0:1:9	CGameClient::Startup - OK
+2023-8-27 0:1:9	CGameClient::ConnectTo OK
+2023-8-27 0:1:47	CConnectManager::Cleanup OK
+2023-8-27 0:1:47	CGameClient::Startup - OK
+2023-8-27 0:1:47	CGameClient::ConnectTo OK
+2023-8-27 0:2:4	CConnectManager::Cleanup OK
+2023-8-27 0:2:4	CGameClient::Startup - OK
+2023-8-27 0:2:4	CGameClient::ConnectTo OK
+2023-8-27 0:4:1	CConnectManager::Cleanup OK
+2023-8-27 0:4:1	CGameClient::Startup - OK
+2023-8-27 0:4:1	CGameClient::ConnectTo OK
+2023-8-27 0:5:36	CConnectManager::Cleanup OK
+2023-8-27 0:5:36	CGameClient::Startup - OK
+2023-8-27 0:5:36	CGameClient::ConnectTo OK
+2023-8-27 0:5:38	CGameClient::Startup - OK
+2023-8-27 0:5:38	CGameClient::ConnectTo OK
+2023-8-27 0:5:38	CConnectManager::Cleanup OK
+2023-8-27 0:14:53	CConnectManager::Cleanup OK
+2023-8-27 0:14:53	CGameClient::Startup - OK
+2023-8-27 0:14:54	CGameClient::ConnectTo OK
+2023-8-27 0:15:19	CConnectManager::Cleanup OK
+2023-8-27 0:15:19	CGameClient::Startup - OK
+2023-8-27 0:15:19	CGameClient::ConnectTo OK
+2023-8-27 0:16:21	CConnectManager::Cleanup OK
+2023-8-27 0:16:21	CGameClient::Startup - OK
+2023-8-27 0:16:21	CGameClient::ConnectTo OK
+2023-8-27 0:16:57	CConnectManager::Cleanup OK
+2023-8-27 0:16:57	CGameClient::Startup - OK
+2023-8-27 0:16:57	CGameClient::ConnectTo OK
+2023-8-27 0:17:4	CConnectManager::Cleanup OK
+2023-8-27 0:17:4	CGameClient::Startup - OK
+2023-8-27 0:17:4	CGameClient::ConnectTo OK
+2023-8-27 0:17:10	CConnectManager::Cleanup OK
+2023-8-27 0:17:10	CGameClient::Startup - OK
+2023-8-27 0:17:10	CGameClient::ConnectTo OK
+2023-8-27 0:17:16	CConnectManager::Cleanup OK
+2023-8-27 0:17:16	CGameClient::Startup - OK
+2023-8-27 0:17:16	CGameClient::ConnectTo OK
+2023-8-27 0:17:40	CConnectManager::Cleanup OK
+2023-8-27 0:17:40	CGameClient::Startup - OK
+2023-8-27 0:17:40	CGameClient::ConnectTo OK
+2023-8-27 0:18:11	CConnectManager::Cleanup OK
+2023-8-27 0:18:11	CGameClient::Startup - OK
+2023-8-27 0:18:11	CGameClient::ConnectTo OK
+2023-8-27 0:18:41	CConnectManager::Cleanup OK
+2023-8-27 0:18:41	CGameClient::Startup - OK
+2023-8-27 0:18:41	CGameClient::ConnectTo OK
+2023-8-27 0:18:48	CConnectManager::Cleanup OK
+2023-8-27 0:18:48	CGameClient::Startup - OK
+2023-8-27 0:18:48	CGameClient::ConnectTo OK
+2023-8-27 0:18:55	CConnectManager::Cleanup OK
+2023-8-27 0:18:55	CGameClient::Startup - OK
+2023-8-27 0:18:55	CGameClient::ConnectTo OK
+2023-8-27 0:19:2	CConnectManager::Cleanup OK
+2023-8-27 0:19:2	CGameClient::Startup - OK
+2023-8-27 0:19:2	CGameClient::ConnectTo OK
+2023-8-27 0:19:35	CConnectManager::Cleanup OK
+2023-8-27 0:19:35	CGameClient::Startup - OK
+2023-8-27 0:19:35	CGameClient::ConnectTo OK
+2023-8-27 0:22:14	CConnectManager::Cleanup OK
+2023-8-27 0:22:14	CGameClient::Startup - OK
+2023-8-27 0:22:14	CGameClient::ConnectTo OK
+2023-8-27 0:22:42	CConnectManager::Cleanup OK
+2023-8-27 0:22:42	CGameClient::Startup - OK
+2023-8-27 0:22:42	CGameClient::ConnectTo OK
+2023-8-27 0:22:48	CConnectManager::Cleanup OK
+2023-8-27 0:22:48	CGameClient::Startup - OK
+2023-8-27 0:22:49	CGameClient::ConnectTo OK
+2023-8-27 0:22:56	CConnectManager::Cleanup OK
+2023-8-27 0:22:56	CGameClient::Startup - OK
+2023-8-27 0:22:56	CGameClient::ConnectTo OK
+2023-8-27 0:23:3	CConnectManager::Cleanup OK
+2023-8-27 0:23:3	CGameClient::Startup - OK
+2023-8-27 0:23:3	CGameClient::ConnectTo OK
+2023-8-27 0:23:8	CConnectManager::Cleanup OK
+2023-8-27 0:23:8	CGameClient::Startup - OK
+2023-8-27 0:23:8	CGameClient::ConnectTo OK
+2023-8-27 0:23:13	CConnectManager::Cleanup OK
+2023-8-27 0:23:13	CGameClient::Startup - OK
+2023-8-27 0:23:13	CGameClient::ConnectTo OK
+2023-8-27 0:24:15	CConnectManager::Cleanup OK
+2023-8-27 0:24:15	CGameClient::Startup - OK
+2023-8-27 0:24:15	CGameClient::ConnectTo OK
+2023-8-27 0:25:19	CConnectManager::Cleanup OK
+2023-8-27 0:25:19	CGameClient::Startup - OK
+2023-8-27 0:25:19	CGameClient::ConnectTo OK
+2023-8-27 0:25:47	CConnectManager::Cleanup OK
+2023-8-27 0:25:47	CGameClient::Startup - OK
+2023-8-27 0:25:47	CGameClient::ConnectTo OK
+2023-8-27 0:25:58	CConnectManager::Cleanup OK
+2023-8-27 0:25:58	CGameClient::Startup - OK
+2023-8-27 0:25:58	CGameClient::ConnectTo OK
+2023-8-27 0:26:6	CConnectManager::Cleanup OK
+2023-8-27 0:26:6	CGameClient::Startup - OK
+2023-8-27 0:26:6	CGameClient::ConnectTo OK
+2023-8-27 0:26:21	CConnectManager::Cleanup OK
+2023-8-27 0:26:21	CGameClient::Startup - OK
+2023-8-27 0:26:21	CGameClient::ConnectTo OK
+2023-8-27 0:26:27	CConnectManager::Cleanup OK
+2023-8-27 0:26:27	CGameClient::Startup - OK
+2023-8-27 0:26:27	CGameClient::ConnectTo OK
+2023-8-27 0:27:7	CConnectManager::Cleanup OK
+2023-8-27 0:27:7	CGameClient::Startup - OK
+2023-8-27 0:27:7	CGameClient::ConnectTo OK
+2023-8-27 0:28:24	CConnectManager::Cleanup OK
+2023-8-27 0:28:24	CGameClient::Startup - OK
+2023-8-27 0:28:24	CGameClient::ConnectTo OK
+2023-8-27 1:0:38	CConnectManager::Cleanup OK
+2023-8-27 1:0:38	CGameClient::Startup - OK
+2023-8-27 1:0:38	CGameClient::ConnectTo OK
+2023-8-27 1:1:0	CConnectManager::Cleanup OK
+2023-8-27 1:1:0	CGameClient::Startup - OK
+2023-8-27 1:1:0	CGameClient::ConnectTo OK
+2023-8-27 1:1:1	CGameClient::Startup - OK
+2023-8-27 1:1:1	CGameClient::ConnectTo OK
+2023-8-27 1:1:1	CConnectManager::Cleanup OK
+2023-8-27 1:1:30	CConnectManager::Cleanup OK
+2023-8-27 1:1:30	CGameClient::Startup - OK
+2023-8-27 1:1:31	CGameClient::ConnectTo OK
+2023-8-27 11:18:34	CConnectManager::Cleanup OK
+2023-8-27 11:18:34	CGameClient::Startup - OK
+2023-8-27 11:18:34	CGameClient::ConnectTo OK
+2023-8-27 11:31:53	CConnectManager::Cleanup OK
+2023-8-27 11:31:53	CGameClient::Startup - OK
+2023-8-27 11:31:53	CGameClient::ConnectTo OK
+2023-8-27 11:31:54	CGameClient::Startup - OK
+2023-8-27 11:31:54	CGameClient::ConnectTo OK
+2023-8-27 11:31:55	CConnectManager::Cleanup OK
+2023-8-27 12:28:19	CConnectManager::Cleanup OK
+2023-8-27 12:28:19	CGameClient::Startup - OK
+2023-8-27 12:28:19	CGameClient::ConnectTo OK
+2023-8-27 12:34:2	CConnectManager::Cleanup OK
+2023-8-27 12:34:2	CGameClient::Startup - OK
+2023-8-27 12:34:2	CGameClient::ConnectTo OK
+2023-8-27 12:37:47	CConnectManager::Cleanup OK
+2023-8-27 12:37:47	CGameClient::Startup - OK
+2023-8-27 12:37:47	CGameClient::ConnectTo OK
+2023-8-27 12:44:44	CConnectManager::Cleanup OK
+2023-8-27 12:44:44	CGameClient::Startup - OK
+2023-8-27 12:44:44	CGameClient::ConnectTo OK
+2023-8-27 20:26:24	CConnectManager::Cleanup OK
+2023-8-27 20:26:24	CGameClient::Startup - OK
+2023-8-27 20:26:24	CGameClient::ConnectTo OK
+2023-8-27 20:26:26	CGameClient::Startup - OK
+2023-8-27 20:26:26	CGameClient::ConnectTo OK
+2023-8-27 20:26:26	CConnectManager::Cleanup OK
+2023-8-27 20:42:14	CConnectManager::Cleanup OK
+2023-8-27 20:42:14	CGameClient::Startup - OK
+2023-8-27 20:42:14	CGameClient::ConnectTo OK
+2023-8-27 20:42:15	CGameClient::Startup - OK
+2023-8-27 20:42:15	CGameClient::ConnectTo OK
+2023-8-27 20:42:15	CConnectManager::Cleanup OK
+2023-8-27 21:12:35	CConnectManager::Cleanup OK
+2023-8-27 21:12:35	CGameClient::Startup - OK
+2023-8-27 21:12:36	CGameClient::ConnectTo OK
+2023-8-27 21:12:37	CGameClient::Startup - OK
+2023-8-27 21:12:37	CGameClient::ConnectTo OK
+2023-8-27 21:12:37	CConnectManager::Cleanup OK
+2023-8-27 22:20:3	CConnectManager::Cleanup OK
+2023-8-27 22:20:3	CGameClient::Startup - OK
+2023-8-27 22:20:3	CGameClient::ConnectTo OK
+2023-8-27 22:20:5	CGameClient::Startup - OK
+2023-8-27 22:20:5	CGameClient::ConnectTo OK
+2023-8-27 22:20:5	CConnectManager::Cleanup OK
+2023-9-4 17:21:59	CGameClient::Startup - OK
+2023-9-4 17:21:59	CGameClient::ConnectTo OK
+2023-9-4 17:22:9	CGameClient::Startup - OK
+2023-9-4 17:22:9	CGameClient::ConnectTo OK
+2023-9-4 17:22:9	CConnectManager::Cleanup OK
+2023-9-4 19:22:10	CConnectManager::Cleanup OK
+2023-9-4 19:22:10	CGameClient::Startup - OK
+2023-9-4 19:22:10	CGameClient::ConnectTo OK
+2023-9-4 19:28:13	CConnectManager::Cleanup OK
+2023-9-4 19:28:13	CGameClient::Startup - OK
+2023-9-4 19:28:13	CGameClient::ConnectTo OK
+2023-9-4 19:28:31	CConnectManager::Cleanup OK
+2023-9-4 19:28:31	CGameClient::Startup - OK
+2023-9-4 19:28:31	CGameClient::ConnectTo OK
+2023-9-4 19:31:15	CConnectManager::Cleanup OK
+2023-9-4 19:31:15	CGameClient::Startup - OK
+2023-9-4 19:31:15	CGameClient::ConnectTo OK
+2023-9-4 19:31:16	CGameClient::Startup - OK
+2023-9-4 19:31:16	CGameClient::ConnectTo OK
+2023-9-4 19:31:16	CConnectManager::Cleanup OK
+2023-9-4 19:31:19	CConnectManager::Cleanup OK
+2023-9-4 19:31:19	CGameClient::Startup - OK
+2023-9-4 19:31:19	CGameClient::ConnectTo OK
+2023-9-4 19:31:53	CConnectManager::Cleanup OK
+2023-9-4 19:31:53	CGameClient::Startup - OK
+2023-9-4 19:31:53	CGameClient::ConnectTo OK
+2023-9-4 19:49:43	CConnectManager::Cleanup OK
+2023-9-4 19:49:43	CGameClient::Startup - OK
+2023-9-4 19:49:43	CGameClient::ConnectTo OK
+2023-9-4 19:49:55	CGameClient::Startup - OK
+2023-9-4 19:49:55	CGameClient::ConnectTo OK
+2023-9-4 19:49:55	CConnectManager::Cleanup OK
+2023-9-4 19:50:0	CConnectManager::Cleanup OK
+2023-9-4 19:50:0	CGameClient::Startup - OK
+2023-9-4 19:50:0	CGameClient::ConnectTo OK
+2023-9-4 19:50:58	CConnectManager::Cleanup OK
+2023-9-4 19:50:58	CGameClient::Startup - OK
+2023-9-4 19:50:58	CGameClient::ConnectTo OK
+2023-9-4 19:51:7	CConnectManager::Cleanup OK
+2023-9-4 19:51:7	CGameClient::Startup - OK
+2023-9-4 19:51:7	CGameClient::ConnectTo OK
+2023-9-4 20:41:44	CConnectManager::Cleanup OK
+2023-9-4 20:41:44	CGameClient::Startup - OK
+2023-9-4 20:41:44	CGameClient::ConnectTo OK
+2023-9-4 20:46:24	CConnectManager::Cleanup OK
+2023-9-4 20:46:24	CGameClient::Startup - OK
+2023-9-4 20:46:24	CGameClient::ConnectTo OK
+2023-9-4 20:46:27	CConnectManager::Cleanup OK
+2023-9-20 15:28:55	CGameClient::Startup - OK
+2023-9-20 15:28:55	CGameClient::ConnectTo OK
+2023-9-20 15:29:7	CGameClient::Startup - OK
+2023-9-20 15:29:7	CGameClient::ConnectTo OK
+2023-9-20 15:29:7	CConnectManager::Cleanup OK
+2023-9-20 17:55:11	CConnectManager::Cleanup OK
+2023-9-20 17:55:11	CGameClient::Startup - OK
+2023-9-20 17:55:12	CGameClient::ConnectTo OK
+2023-9-20 18:3:23	CConnectManager::Cleanup OK
+2023-9-20 18:3:23	CGameClient::Startup - OK
+2023-9-20 18:3:23	CGameClient::ConnectTo OK
+2023-9-20 18:3:37	CConnectManager::Cleanup OK
+2023-9-20 18:3:37	CGameClient::Startup - OK
+2023-9-20 18:3:37	CGameClient::ConnectTo OK
+2023-9-20 19:14:41	CConnectManager::Cleanup OK
+2023-9-20 19:14:41	CGameClient::Startup - OK
+2023-9-20 19:14:41	CGameClient::ConnectTo OK
+2023-9-20 19:14:50	CGameClient::Startup - OK
+2023-9-20 19:14:50	CGameClient::ConnectTo OK
+2023-9-20 19:14:50	CConnectManager::Cleanup OK
+2023-9-20 19:14:59	CConnectManager::Cleanup OK
+2023-9-20 19:14:59	CGameClient::Startup - OK
+2023-9-20 19:14:59	CGameClient::ConnectTo OK

@@ -119,7 +119,15 @@ NV_INFO = {
         'PASS': '0964892408a',
         'PT_PATH': r'C:\PhongThan3\PhongThan_II_QuanHung\game.exe',
         'PT_NAME': 'Phong Than 2 Quan Hung Tranh'
-    }
+    },
+    'MrFailer': {
+        'TK': 'acnhansat1',
+        'BILL_GATES_NAME': 'image/bill_gates_image_mrfailer.png',
+        'NAME_NV': 'mrslave102',
+        'PASS': '0964892408a',
+        'PT_PATH': r'C:\PhongThan2\game.exe',
+        'PT_NAME': 'PhongThan2.Com'
+    },
 }
 
 class BillGatePT:
@@ -454,7 +462,7 @@ class BillGatePT:
 
 if __name__ == "__main__":
 
-    master_pt = BillGatePT(nv_key_info='Failer')
+    master_pt = BillGatePT(nv_key_info='MrFailer')
     num_gd = 1
     while True:
         print('Waiting msg')
